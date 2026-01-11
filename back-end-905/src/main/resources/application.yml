@@ -1,19 +1,36 @@
 spring:
-  messages:
-    basename: i18n/messages
   application:
     name: backend
+
+  messages:
+    basename: i18n/messages
+
   datasource:
-    driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@//localhost:1521/orclpdb
+
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
     username: hr
     password: hr
+    driver-class-name: oracle.jdbc.OracleDriver
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
+    properties:
+      hibernate:
+        # إضافة الـ Dialect يدوياً بيمنع الخطأ اللي بيظهر تماماً
+        dialect: org.hibernate.dialect.OracleDialect
+        format_sql: true
+
+  main:
+    banner-mode: "off"
+
 server:
   port: 9090
+
+logging:
+  level:
+    root: info
 
 token:
   secret: 832t82eg8dgwd2fc8cg2bfghbftg8oe8g2e8hihrfghe87drf
