@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(schema = "hr")
+@Table(name = "product",schema = "hr")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -20,7 +20,7 @@ public class Product {
     private Long id;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(name="IMAGE",nullable = false)
     private String imagePath;
     @Column(nullable = false, length = 1000)
     private String description;
