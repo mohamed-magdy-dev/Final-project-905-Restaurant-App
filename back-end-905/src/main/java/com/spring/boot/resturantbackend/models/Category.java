@@ -1,5 +1,6 @@
 package com.spring.boot.resturantbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Category {
     private String logo;
     @Column(nullable = false)
     private String flag;
+    @JsonIgnore // to prevent Infinite Looping
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 }

@@ -26,7 +26,7 @@ spring:
     banner-mode: "off"
 
 server:
-  port: 9090
+  port: 8080
 
 logging:
   level:
