@@ -8,7 +8,7 @@ import {map} from "rxjs/operators";
 })
 export class AuthService {
 
-  private baseUrl = 'http://localhost:9090/auth';  // login   signup
+  private baseUrl = 'http://localhost:8080/auth';  // login   signup
   constructor(private http: HttpClient) {
   }
 
