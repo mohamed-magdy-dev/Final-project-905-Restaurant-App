@@ -8,7 +8,9 @@ import com.spring.boot.resturantbackend.mappers.OrderMapper;
 import com.spring.boot.resturantbackend.mappers.ProductMapper;
 import com.spring.boot.resturantbackend.mappers.security.AccountMapper;
 import com.spring.boot.resturantbackend.models.Order;
+import com.spring.boot.resturantbackend.models.security.Account;
 import com.spring.boot.resturantbackend.repositories.OrderRepo;
+import com.spring.boot.resturantbackend.repositories.security.AccountRepo;
 import com.spring.boot.resturantbackend.services.OrderService;
 import com.spring.boot.resturantbackend.controllers.vm.RequestOrderVm;
 import com.spring.boot.resturantbackend.controllers.vm.ResponseOrderVm;
@@ -29,29 +31,54 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private AccountRepo accountRepo; // added this For checkout
+
     @Override
     public ResponseOrderVm requestOrder(RequestOrderVm requestOrderVm) {
 
-        List<ProductDto> productDtoList = productService.getProductByIds(requestOrderVm.getProductsIds());
+        // 1️⃣ نجيب اليوزر اللي عامل Login
+        AccountDto accountDto = (AccountDto) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-        AccountDto accountDto = (AccountDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // 2️⃣ نجيب الـ Account من الداتا بيز
+        Account account = accountRepo.findByUsername(accountDto.getUsername())
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        // 3️⃣ CHECK المهم 🔴
+        if (account.getAccountDetails() == null) {
+            throw new RuntimeException("Please complete your profile first");
+        }
+
+        // 4️⃣ باقي الكود زي ما هو
+        List<ProductDto> productDtoList =
+                productService.getProductByIds(requestOrderVm.getProductsIds());
 
         Order order = new Order();
         order.setTotalPrice(requestOrderVm.getTotalPrice());
         order.setTotalNumber(requestOrderVm.getTotalNumber());
         order.setProducts(ProductMapper.PRODUCT_MAPPER.toProductList(productDtoList));
-        order.setAccount(AccountMapper.ACCOUNT_MAPPER.toAccount(accountDto));
+        order.setAccount(account);
 
+        // 🔥 التعديل هنا: نحط قيمة مؤقتة عشان نتفادى خطأ الـ NULL
+        order.setCode("TEMP-CODE");
+
+        // 4. الحفظ الأول (عشان ناخد ID)
         Order orderSaved = orderRepo.save(order);
 
-        Long id = orderSaved.getId();
-        String code = "RES-" + id;
+        // 5. تحديث الكود بالشكل الصحيح (RES-ID)
+        String code = "RES-" + orderSaved.getId();
         orderSaved.setCode(code);
 
-        orderSaved = orderRepo.save(order);
-
-        return new ResponseOrderVm(orderSaved.getCode(), orderSaved.getTotalPrice(), orderSaved.getTotalNumber());
+        return new ResponseOrderVm(
+                orderSaved.getCode(),
+                orderSaved.getTotalPrice(),
+                orderSaved.getTotalNumber()
+        );
     }
+
 
     @Override
     public UserOrdersResponse getOrders() {

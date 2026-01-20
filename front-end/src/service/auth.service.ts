@@ -42,6 +42,12 @@ export class AuthService {
     return roles.includes("ADMIN");
   }
 
+  updateProfile(data: any): Observable<any> {
+    // تأكد إن الرابط ده مطابق للكونترولر بتاعك (account/profile)
+    // ولازم يكون معاك التوكن في الهيدر (الانترسبتور بيعملها غالباً)
+    return this.http.post(`${this.baseUrl.replace('/auth', '')}/account/profile`, data);
+  }
+
   logOut() {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("roles");

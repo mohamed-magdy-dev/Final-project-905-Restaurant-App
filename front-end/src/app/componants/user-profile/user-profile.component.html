@@ -1,0 +1,39 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">Complete Your Profile</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+            
+            <div class="form-group mb-3">
+              <label>Address <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="address" placeholder="Ex: Cairo, Nasr City">
+            </div>
+
+            <div class="form-group mb-3">
+              <label>Phone Number <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="phoneNumber" placeholder="Ex: 010xxxxxxx">
+            </div>
+
+            <div class="form-group mb-3">
+              <label>Age</label>
+              <input type="number" class="form-control" formControlName="age">
+            </div>
+
+            <button type="submit" class="btn btn-success w-100" [disabled]="profileForm.invalid">
+              Update Profile
+            </button>
+            
+            <div *ngIf="message" class="alert mt-3" [ngClass]="isSuccess ? 'alert-success' : 'alert-danger'">
+              {{ message }}
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -46,16 +46,49 @@ export class CardDetailsComponent {
   }
 
 
-  createOrder() {
-    const productIds = this.cartService.productOrders.map(or => or.id);
 
-    this.requestOrderService.createOrder(productIds, this.totalProductPrice, this.totalProductSize).subscribe(
-      response => {
-        this.cartService.productOrders = [];
-        this.cartService.totalPrice.next(0);
-        this.cartService.totalOrderSize.next(0);
-        this.router.navigateByUrl("/order-code/" + response.code)
+  createOrder() {
+  const productIds = this.cartService.productOrders.map(or => or.id);
+
+  this.requestOrderService.createOrder(productIds, this.totalProductPrice, this.totalProductSize).subscribe(
+    response => {
+      // السيناريو الناجح
+      this.cartService.productOrders = [];
+      this.cartService.totalPrice.next(0);
+      this.cartService.totalOrderSize.next(0);
+      this.router.navigateByUrl("/order-code/" + response.code);
+    },
+    error => {
+      console.error(error); // عشان نشوف شكل الإيرور في الكونسول
+
+      // لو الرسالة جاية في error.error.message أو حسب الـ Structure بتاعك
+      // ممكن تحتاج تطبع error كله في الكونسول الأول عشان تعرف المسار الصح للرسالة
+      let errorMsg = error.error?.message || error.message || ""; 
+
+      if (errorMsg.includes("PROFILE_INCOMPLETE")) {
+        // 1. طلع رسالة لليوزر
+        alert("⚠️ Please complete your profile (Address & Phone) before checkout!");
+        
+        // 2. حوله لصفحة البروفايل (لو عندك صفحة أو مودال)
+        // this.router.navigateByUrl('/profile'); // (لو عملنا راوت للبروفايل)
+        
+        // أو ممكن تفتحله مودال البروفايل لو بتستخدم Bootstrap Modal
+      } else {
+        alert("Something went wrong with your order.");
       }
-    )
-  }
+    }
+  );
+}
+  // createOrder() {
+  //   const productIds = this.cartService.productOrders.map(or => or.id);
+
+  //   this.requestOrderService.createOrder(productIds, this.totalProductPrice, this.totalProductSize).subscribe(
+  //     response => {
+  //       this.cartService.productOrders = [];
+  //       this.cartService.totalPrice.next(0);
+  //       this.cartService.totalOrderSize.next(0);
+  //       this.router.navigateByUrl("/order-code/" + response.code)
+  //     }
+  //   )
+  // }
 }

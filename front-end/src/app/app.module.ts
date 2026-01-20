@@ -20,6 +20,7 @@ import {LoginSignUpGuard} from "../guard/login-sign-up.guard";
 import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import { OrderCodeComponent } from './componants/order-code/order-code.component';
 import { OrderUserComponent } from './componants/order-user/order-user.component';
+import { UserProfileComponent } from './componants/user-profile/user-profile.component';
 
 // http://localhost:4200/
 export const routes: Routes = [
@@ -65,7 +66,8 @@ export const routes: Routes = [
     LoginComponent,
     SignupComponent,
     OrderCodeComponent,
-    OrderUserComponent
+    OrderUserComponent,
+    UserProfileComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
