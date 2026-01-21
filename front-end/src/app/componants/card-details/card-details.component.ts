@@ -60,7 +60,8 @@ export class CardDetailsComponent {
     },
     error => {
       console.error(error); // عشان نشوف شكل الإيرور في الكونسول
-
+ console.log(error);
+  alert("Something went wrong with your order.");
       // لو الرسالة جاية في error.error.message أو حسب الـ Structure بتاعك
       // ممكن تحتاج تطبع error كله في الكونسول الأول عشان تعرف المسار الصح للرسالة
       let errorMsg = error.error?.message || error.message || ""; 

@@ -37,9 +37,9 @@ export class UserProfileComponent implements OnInit {
         this.isSuccess = true;
         this.message = 'Profile updated successfully! Redirecting...';
         
-        // بعد ثانيتين نرجعه للكارت عشان يكمل طلب
+        // after two seconds we get back to carts .. or anything i want later.
         setTimeout(() => {
-          this.router.navigate(['/cart']); // أو products حسب ما تحب
+          this.router.navigate(['/cart']); // أو products حسب ما احب بقى
         }, 2000);
       },
       error => {
