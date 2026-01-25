@@ -1,5 +1,6 @@
 package com.spring.boot.resturantbackend.services.impl;
 
+import com.spring.boot.resturantbackend.config.ProfileIncompleteException;
 import com.spring.boot.resturantbackend.controllers.vm.UserOrdersResponse;
 import com.spring.boot.resturantbackend.dto.OrderDto;
 import com.spring.boot.resturantbackend.dto.ProductDto;
@@ -49,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 3️⃣ CHECK المهم 🔴
         if (account.getAccountDetails() == null) {
-            throw new RuntimeException("Please complete your profile first");
+            throw new ProfileIncompleteException();
         }
 
         // 4️⃣ باقي الكود زي ما هو

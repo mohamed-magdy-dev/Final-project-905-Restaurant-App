@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./card-details.component.css']
 })
 export class CardDetailsComponent {
-
+profileErrorMessage: string | null = null;
   productOrders: ProductOrder[] = [];
   totalProductSize: number = 0;
   totalProductPrice: number = 0;
@@ -21,6 +21,7 @@ export class CardDetailsComponent {
   }
 
   ngOnInit(): void {
+    
     this.productOrders = this.cartService.productOrders;
 
     this.cartService.totalOrderSize.subscribe(
@@ -48,6 +49,8 @@ export class CardDetailsComponent {
 
 
   createOrder() {
+   
+
   const productIds = this.cartService.productOrders.map(or => or.id);
 
   this.requestOrderService.createOrder(productIds, this.totalProductPrice, this.totalProductSize).subscribe(
@@ -58,26 +61,24 @@ export class CardDetailsComponent {
       this.cartService.totalOrderSize.next(0);
       this.router.navigateByUrl("/order-code/" + response.code);
     },
-    error => {
-      console.error(error); // عشان نشوف شكل الإيرور في الكونسول
- console.log(error);
-  alert("Something went wrong with your order.");
-      // لو الرسالة جاية في error.error.message أو حسب الـ Structure بتاعك
-      // ممكن تحتاج تطبع error كله في الكونسول الأول عشان تعرف المسار الصح للرسالة
-      let errorMsg = error.error?.message || error.message || ""; 
+   error => {
+  const errorMsg = error.error?.message || '';
 
-      if (errorMsg.includes("PROFILE_INCOMPLETE")) {
-        // 1. طلع رسالة لليوزر
-        alert("⚠️ Please complete your profile (Address & Phone) before checkout!");
-        
-        // 2. حوله لصفحة البروفايل (لو عندك صفحة أو مودال)
-        // this.router.navigateByUrl('/profile'); // (لو عملنا راوت للبروفايل)
-        
-        // أو ممكن تفتحله مودال البروفايل لو بتستخدم Bootstrap Modal
-      } else {
-        alert("Something went wrong with your order.");
-      }
-    }
+  if (errorMsg === 'PROFILE_INCOMPLETE') {
+    this.profileErrorMessage =
+      'Please complete your profile first to be able to checkout.';
+
+    // Hide message after 5 seconds
+    setTimeout(() => {
+      this.profileErrorMessage = null;
+    }, 5000);
+  } else {
+    this.profileErrorMessage = 'Something went wrong. Please try again.';
+    setTimeout(() => {
+      this.profileErrorMessage = null;
+    }, 5000);
+  }
+}
   );
 }
   // createOrder() {

@@ -68,6 +68,17 @@
             </tbody>
           </table>
           <button type="button" class="btn btn-success col-12" (click)="createOrder()">Take Order</button>
+          <!-- Div -->
+<div *ngIf="profileErrorMessage" class="alert alert-warning mt-3 fade show">
+  {{ profileErrorMessage }}
+  <div class="mt-2">
+    <a routerLink="/profile" class="alert-link">
+      Complete your profile now
+    </a>
+  </div>
+</div>
+
+
         </div>
       </div>
     </div>

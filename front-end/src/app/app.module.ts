@@ -23,6 +23,7 @@ import { OrderUserComponent } from './componants/order-user/order-user.component
 import { UserProfileComponent } from './componants/user-profile/user-profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
+
 // http://localhost:4200/
 export const routes: Routes = [
 
@@ -30,7 +31,8 @@ export const routes: Routes = [
   {path: 'products', component: ProductsComponent, canActivate:[AuthGuard]},
   {path: 'category/:id', component: ProductsComponent, canActivate:[AuthGuard]},
   {path: 'products/:key', component: ProductsComponent, canActivate:[AuthGuard]},
-  // http://localhost:4200/cardDetails
+  // http://localhost:4200/cartDetails
+  {path: 'profile', component: UserProfileComponent },
   {path: 'cardDetails', component: CardDetailsComponent, canActivate:[AuthGuard]},
   {path: 'contact-info', component: ContactInfoComponent, canActivate:[AuthGuard]},
   {path: 'login', component: LoginComponent, canActivate:[LoginSignUpGuard]},
@@ -44,7 +46,8 @@ export const routes: Routes = [
   // if user enter thing without all routes
   // http://localhost:4200/ghy
   {path: '**', redirectTo: '/products', pathMatch: 'full'}
-
+  // profile route
+  
 ];
 
 

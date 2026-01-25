@@ -23,10 +23,28 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     // تعريف الفورم
     this.profileForm = this.fb.group({
-      address: ['', Validators.required],
-      phoneNumber: ['', [Validators.required, Validators.minLength(10)]],
-      age: ['']
-    });
+  address: [
+    '',
+    [Validators.required, Validators.minLength(5)]
+  ],
+
+  phoneNumber: [
+    '',
+    [
+      Validators.required,
+      Validators.pattern('^01[0-9]{9}$') // مصري legit
+    ]
+  ],
+
+  age: [
+    '',
+    [
+      Validators.min(10),
+      Validators.max(100)
+    ]
+  ]
+});
+
   }
 
   onSubmit() {

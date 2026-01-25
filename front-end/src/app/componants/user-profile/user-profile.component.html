@@ -30,6 +30,11 @@
             <div *ngIf="message" class="alert mt-3" [ngClass]="isSuccess ? 'alert-success' : 'alert-danger'">
               {{ message }}
             </div>
+<div *ngIf="profileForm.get('phoneNumber')?.invalid 
+        && profileForm.get('phoneNumber')?.touched"
+     class="text-danger small">
+  Phone number must be 11 digits and start with 01
+</div>
 
           </form>
         </div>
