@@ -61,24 +61,43 @@ profileErrorMessage: string | null = null;
       this.cartService.totalOrderSize.next(0);
       this.router.navigateByUrl("/order-code/" + response.code);
     },
-   error => {
+
+
+error => {
   const errorMsg = error.error?.message || '';
 
   if (errorMsg === 'PROFILE_INCOMPLETE') {
-    this.profileErrorMessage =
-      'Please complete your profile first to be able to checkout.';
-
-    // Hide message after 5 seconds
-    setTimeout(() => {
-      this.profileErrorMessage = null;
-    }, 5000);
+    this.profileErrorMessage = 'Please complete your profile first to be able to checkout.';
+    // لا تقم بإخفاء الرسالة هنا، اترك الزر ظاهراً للمستخدم ليضغط عليه
   } else {
     this.profileErrorMessage = 'Something went wrong. Please try again.';
+    // هنا يمكن إخفاؤه لأنه مجرد تنبيه عام
     setTimeout(() => {
       this.profileErrorMessage = null;
     }, 5000);
   }
 }
+
+
+
+//    error => {
+//   const errorMsg = error.error?.message || '';
+
+//   if (errorMsg === 'PROFILE_INCOMPLETE') {
+//     this.profileErrorMessage =
+//       'Please complete your profile first to be able to checkout.';
+
+//     // Hide message after 5 seconds
+//     setTimeout(() => {
+//       this.profileErrorMessage = null;
+//     }, 5000);
+//   } else {
+//     this.profileErrorMessage = 'Something went wrong. Please try again.';
+//     setTimeout(() => {
+//       this.profileErrorMessage = null;
+//     }, 5000);
+//   }
+// }
   );
 }
   // createOrder() {

@@ -69,15 +69,25 @@
           </table>
           <button type="button" class="btn btn-success col-12" (click)="createOrder()">Take Order</button>
           <!-- Div -->
-<div *ngIf="profileErrorMessage" class="alert alert-warning mt-3 fade show">
-  {{ profileErrorMessage }}
-  <div class="mt-2">
-    <a routerLink="/profile" class="alert-link">
-      Complete your profile now
-    </a>
+<div *ngIf="profileErrorMessage" class="custom-alert-box mt-4 p-4 rounded shadow-sm fade show">
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+    
+    <div class="d-flex align-items-center">
+      <div class="icon-circle me-3">
+        <i class="fa fa-user text-primary-custom"></i>
+      </div>
+      <div>
+        <h5 class="mb-1 fw-bold text-dark">Profile Incomplete</h5>
+        <p class="mb-0 text-muted small">{{ profileErrorMessage }}</p>
+      </div>
+    </div>
+
+    <button routerLink="/profile" class="btn btn-custom-profile px-4 py-2">
+      Complete Profile <i class="fa fa-arrow-right ms-2"></i>
+    </button>
+
   </div>
 </div>
-
 
         </div>
       </div>

@@ -39,6 +39,7 @@ export class UserProfileComponent implements OnInit {
   age: [
     '',
     [
+      Validators.required,
       Validators.min(10),
       Validators.max(100)
     ]
