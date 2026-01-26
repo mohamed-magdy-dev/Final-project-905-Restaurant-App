@@ -59,7 +59,7 @@ profileErrorMessage: string | null = null;
       this.cartService.productOrders = [];
       this.cartService.totalPrice.next(0);
       this.cartService.totalOrderSize.next(0);
-      this.router.navigateByUrl("/order-code/" + response.code);
+      this.router.navigateByUrl("/order-summary/" + response.code);
     },
 
 

@@ -22,6 +22,7 @@ import { OrderCodeComponent } from './componants/order-code/order-code.component
 import { OrderUserComponent } from './componants/order-user/order-user.component';
 import { UserProfileComponent } from './componants/user-profile/user-profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { OrderSummaryComponent } from './componants/order-summary/order-summary.component';
 
 
 // http://localhost:4200/
@@ -35,6 +36,7 @@ export const routes: Routes = [
   {path: 'profile', component: UserProfileComponent },
   {path: 'cardDetails', component: CardDetailsComponent, canActivate:[AuthGuard]},
   {path: 'contact-info', component: ContactInfoComponent, canActivate:[AuthGuard]},
+  {path: 'order-summary/:code', component: OrderSummaryComponent},
   {path: 'login', component: LoginComponent, canActivate:[LoginSignUpGuard]},
   {path: 'signup', component: SignupComponent, canActivate:[LoginSignUpGuard]},
   {path: 'chefs', component: ChefsComponent, canActivate:[AuthGuard]},
@@ -71,7 +73,8 @@ export const routes: Routes = [
     SignupComponent,
     OrderCodeComponent,
     OrderUserComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    OrderSummaryComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
