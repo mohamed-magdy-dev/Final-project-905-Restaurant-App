@@ -33,7 +33,7 @@ export const routes: Routes = [
   {path: 'category/:id', component: ProductsComponent, canActivate:[AuthGuard]},
   {path: 'products/:key', component: ProductsComponent, canActivate:[AuthGuard]},
   // http://localhost:4200/cartDetails
-  {path: 'profile', component: UserProfileComponent },
+  {path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   {path: 'cardDetails', component: CardDetailsComponent, canActivate:[AuthGuard]},
   {path: 'contact-info', component: ContactInfoComponent, canActivate:[AuthGuard]},
   {path: 'order-summary/:code', component: OrderSummaryComponent},

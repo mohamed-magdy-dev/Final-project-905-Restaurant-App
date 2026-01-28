@@ -20,6 +20,9 @@ export class OrderSummaryComponent implements OnInit {
   }
 
   backToMenu() {
+  setTimeout(() => {
     this.router.navigate(['/products']);
-  }
+  }, 300);
+}
+
 }
