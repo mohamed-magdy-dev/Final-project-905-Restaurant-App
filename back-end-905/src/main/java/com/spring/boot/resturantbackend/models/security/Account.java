@@ -25,6 +25,8 @@ public class Account {
     private String username;
     @Column(nullable = false)
     private String password;
+    @Column(name = "email",nullable = false, unique = true)
+    private String email;
     @OneToOne(mappedBy = "account")
     private AccountDetails accountDetails;
     @Getter

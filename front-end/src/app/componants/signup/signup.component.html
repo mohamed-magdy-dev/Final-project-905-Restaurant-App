@@ -1,41 +1,58 @@
 <div class="signup-card">
   <h3>Create Account</h3>
-    <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input
-        type="text"
-        class="form-control"
-        id="username"
-        #username
-      >
-    </div>
 
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input
-        type="password"
-        class="form-control"
-        id="password"
-        #password
-      >
-    </div>
-    <div class="mb-3">
-      <label for="confirmPassword" class="form-label">Confirm Password</label>
-      <input
-        type="password"
-        class="form-control"
-        id="confirmPassword"
-        name="confirmPassword"
-        placeholder="Re-enter your password"
-        #confirmPassword
-      >
-    </div>
-    <button type="submit" class="btn btn-success" (click)="createAccount(username.value ,password.value, confirmPassword.value)">Sign Up</button>
-  <!-- Example Notification (Error) -->
+  <div class="mb-3">
+    <label for="username" class="form-label">Username</label>
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      #username
+    >
+  </div>
+
+  <div class="mb-3">
+    <label for="email" class="form-label">Email Address</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      placeholder="name@example.com"
+      #email
+    >
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      #password
+    >
+  </div>
+
+  <div class="mb-3">
+    <label for="confirmPassword" class="form-label">Confirm Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="confirmPassword"
+      name="confirmPassword"
+      placeholder="Re-enter your password"
+      #confirmPassword
+    >
+  </div>
+
+  <button 
+    type="submit" 
+    class="btn btn-success" 
+    (click)="createAccount(username.value, password.value, confirmPassword.value, email.value)">
+    Sign Up
+  </button>
+  
   <div *ngIf="messageAr || messageEn" class="alert alert-danger notification">
     <strong>{{messageEn}}</strong><br>
     <small class="text-muted">{{messageAr}}</small>
   </div>
-
-
 </div>

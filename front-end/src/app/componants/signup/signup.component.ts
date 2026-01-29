@@ -16,8 +16,8 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  createAccount(username, password, confirmPassword) {
-    if(!this.validateAccount(username, password, confirmPassword)){
+  createAccount(username, password, confirmPassword, email) {
+    if(!this.validateAccount(username, password, confirmPassword, email)){
       setTimeout(() => {
         this.messageAr = "";
         this.messageEn = "";
@@ -25,7 +25,7 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    this.authService.createAccount(username, password).subscribe(
+    this.authService.createAccount(username, password, email).subscribe(
       response => {
         sessionStorage.setItem("token", response.token);
         sessionStorage.setItem("roles", response.userRoles);
@@ -41,7 +41,7 @@ export class SignupComponent implements OnInit {
     )
   }
 
-  validateAccount(username: string, password: string, confirmPassword: string): boolean {
+  validateAccount(username: string, password: string, confirmPassword: string, email: string): boolean {
     if (!username) {
       this.messageAr = "اسم المستخدم مطلوب";
       this.messageEn = "Username is required";
@@ -65,6 +65,13 @@ export class SignupComponent implements OnInit {
       this.messageEn = "Password and confirm password do not match";
       return false;
     }
+
+    if (!email) {
+    this.messageAr = "البريد الإلكتروني مطلوب";
+    this.messageEn = "Email is required";
+     return false;
+    }
+
 
     return true;
   }

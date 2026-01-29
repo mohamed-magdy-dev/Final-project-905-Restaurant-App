@@ -13,8 +13,8 @@ export class AuthService {
   }
 
 
-  createAccount(username, password): Observable<any> {
-    return this.http.post<any>(this.baseUrl + "/sign-up", {username, password}).pipe(
+  createAccount(username, password,email): Observable<any> {
+    return this.http.post<any>(this.baseUrl + "/sign-up", {username, password,email}).pipe(
       map(
         response => response
       )

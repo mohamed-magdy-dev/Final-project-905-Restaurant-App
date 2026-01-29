@@ -28,7 +28,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AccountAuthResponseVm signUp(AccountAuthRequestVm accountAuthRequestVm) {
         AccountDto accountDto = AccountMapper.ACCOUNT_MAPPER.toAccountDto(accountAuthRequestVm);
-        accountDto = accountService.createAccount(accountDto);
+        accountDto.setEmail(accountAuthRequestVm.getEmail()); // email part
+        accountDto = accountService.createAccount(accountDto); // creating account
+        // responses:
         AccountAuthResponseVm accountAuthResponseVm = AccountMapper.ACCOUNT_MAPPER.toAccountResponseVm(accountDto);
         accountAuthResponseVm.setToken(tokenHandler.generateToken(accountDto));
         accountAuthResponseVm.setUserRoles(getAccountRoles(accountDto));
