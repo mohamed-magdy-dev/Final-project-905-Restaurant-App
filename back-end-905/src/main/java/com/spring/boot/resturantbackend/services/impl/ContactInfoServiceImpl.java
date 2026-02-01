@@ -89,7 +89,7 @@ public class ContactInfoServiceImpl implements ContactInfoService {
         // ملحوظة: احنا تجاهلنا المتغير اللي جاي في الباراميتر وهنجيب اليوزر الحقيقي من التوكين
         // عشان نضمن ان مفيش حد بيجيب رسايل حد تاني
         String realUsername = getCurrentUsername();
-        //debugging print 
+        //debugging print
         System.out.println("========== DEBUG COUNT START ==========");
         System.out.println("User asking for count (FIXED): " + realUsername);
 

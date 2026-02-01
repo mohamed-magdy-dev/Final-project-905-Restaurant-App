@@ -6,6 +6,7 @@ import com.spring.boot.resturantbackend.controllers.vm.ResponseOrderVm;
 import com.spring.boot.resturantbackend.controllers.vm.UserOrdersResponse;
 import com.spring.boot.resturantbackend.dto.CategoryDto;
 import com.spring.boot.resturantbackend.dto.ExceptionDto;
+import com.spring.boot.resturantbackend.dto.OrderDto;
 import com.spring.boot.resturantbackend.services.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -56,5 +57,10 @@ public class OrderController {
     @GetMapping("/all-orders") // UserOrdersResponse
     public ResponseEntity<UserOrdersResponse> getAllOrders()  {
         return ResponseEntity.ok(orderService.getOrders());
+    }
+    // admin -- table view orders
+    @GetMapping("/admin/all-orders")
+    public ResponseEntity<List<OrderDto>> getAllOrdersForAdmin() {
+        return ResponseEntity.ok(orderService.getAllOrdersForAdmin());
     }
 }

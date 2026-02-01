@@ -18,6 +18,7 @@ import com.spring.boot.resturantbackend.controllers.vm.ResponseOrderVm;
 import com.spring.boot.resturantbackend.services.ProductService;
 import jakarta.transaction.SystemException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -99,4 +100,15 @@ public class OrderServiceImpl implements OrderService {
                 totalPrice
         );
     }
+
+    @Override
+    public List<OrderDto> getAllOrdersForAdmin() {
+        // بنجيب كل الأوردرات ونرتبها بالتاريخ (الأحدث للأقدم)
+        // ملاحظة: لو "dateCreated" مش موجود في الـ Entity، غيرها لـ "id" مؤقتاً
+        List<Order> orders = orderRepo.findAll(Sort.by(Sort.Direction.DESC, "id"));
+
+        // بنحولها لـ DTO باستخدام المابر بتاعك
+        return OrderMapper.ORDER_MAPPER.toOrderDtoList(orders);
+    }
+
 }

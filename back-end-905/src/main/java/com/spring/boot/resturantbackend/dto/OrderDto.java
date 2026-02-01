@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -22,5 +23,5 @@ public class OrderDto {
     private double totalPrice;
     private double totalNumber;
     List<ProductDto> products;
-
+    private Date dateCreated;
 }
