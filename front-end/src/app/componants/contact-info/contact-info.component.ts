@@ -29,39 +29,65 @@ export class ContactInfoComponent implements OnInit {
   }
 
   fillUserData() {
-    // افترض هنا أنك مخزن بيانات اليوزر في localStorage بعد اللوجين
-    // أو ممكن تجيبها من UserService لو عندك
-    const userString = localStorage.getItem('user');
-     // أو حسب ما أنت مخزنها فين
-   console.log('USER FROM STORAGE:', userString);
-     if (userString) {
-      const user = JSON.parse(userString);
-      
-      // نملأ الفورم بالبيانات الجاهزة
-      this.contactForm.patchValue({
-        name: user.name || '', // تأكد من أسماء الحقول في الـ LocalStorage عندك
-        email: user.email || ''
-      });
+    // بنجيب اليوزر من المتصفح
+    const userString = localStorage.getItem('user'); // أو 'currentUser' حسب أنت مسميه إيه في الـ LoginService
+    
+    if (userString) {
+      try {
+        const user = JSON.parse(userString);
+        
+        // تعديل مهم: استخدمنا username بدل name
+        // وخلينا الايميل فاضي عشان اليوزر يكتبه هو
+        this.contactForm.patchValue({
+          name: user.username || user.name || '', 
+          email: '' 
+        });
+      } catch (e) {
+        console.error('Error parsing user data', e);
+      }
     }
   }
 
   onSubmit() {
     this.isSubmitted = true;
+    
+    // 1. تنظيف مبدئي قبل الإرسال
+    this.errorMessage = '';
+    this.successMessage = '';
+
     if (this.contactForm.invalid) return;
 
     this.contactService.sendMessage(this.contactForm.value).subscribe({
       next: (res) => {
-        this.successMessage = 'Message sent successfully!';
-        this.contactForm.get('subject')?.reset(); // نمسح الموضوع والرسالة بس
+        // 2. حالة النجاح
+        this.errorMessage = ''; // تأكيد مسح الخطأ
+        this.successMessage = 'Message sent successfully! We will reply soon.';
+        
+        this.contactForm.get('subject')?.reset();
         this.contactForm.get('message')?.reset();
         this.isSubmitted = false;
         
-        // إخفاء الرسالة بعد 3 ثواني
-        setTimeout(() => this.successMessage = '', 3000);
+        // إخفاء رسالة النجاح بعد 6 ثواني (مدة كافية للقراءة)
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 5000);
       },
       error: (err) => {
-        this.errorMessage = 'Failed to send message. Please try again.';
+        // 3. حالة الفشل
+        this.successMessage = ''; // تأكيد مسح النجاح
+        
+        if (err.error && err.error.error === 'PROFILE_INCOMPLETE') {
+            this.errorMessage = 'Please complete your profile first!';
+        } else {
+            this.errorMessage = 'Failed to send message. Please try again.';
+        }
+        
         console.error(err);
+
+        // إخفاء رسالة الخطأ بعد 5 ثواني
+        setTimeout(() => {
+            this.errorMessage = '';
+        }, 2000);
       }
     });
   }

@@ -1,5 +1,6 @@
 package com.spring.boot.resturantbackend.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -23,4 +24,9 @@ public class ContactInfoDto {
     private String subject;
     @NotEmpty(message = "not_empty.message")
     private String message;
+
+    // notification
+    private boolean isRead;
+    private boolean isReplied;
+    private String adminReply; // تأكد إن ده موجود
 }
