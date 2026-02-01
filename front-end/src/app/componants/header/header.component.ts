@@ -22,23 +22,29 @@ export class HeaderComponent implements OnInit { // 1. زودنا implements OnI
 
   // 3. دالة التشغيل أول ما الصفحة تفتح
   ngOnInit(): void {
-    // لو اليوزر مسجل دخول، هات عدد الرسايل
-    if (this.isUserLogin()) {
-      this.getNotificationCount();
+   if (this.isUserLogin()) {
+      // 1. نادي الـ API عشان يجيب أول رقم ويحطه في المخزن
+      this.contactService.getUnreadCount().subscribe();
+      
+      // 2. اشترك في المخزن عشان أي تغيير مستقبلي يوصلك
+      this.contactService.unreadCount.subscribe(count => {
+        this.unreadCount = count;
+      });
     }
   }
+  
 
-  getNotificationCount() {
-    this.contactService.getUnreadCount().subscribe({
-      next: (count) => {
-        this.unreadCount = count;
-        console.log('Unread Messages:', count);
-      },
-      error: (err) => {
-        console.error('Failed to get notifications', err);
-      }
-    });
-  }
+  // getNotificationCount() {
+  //   this.contactService.getUnreadCount().subscribe({
+  //     next: (count) => {
+  //       this.unreadCount = count;
+  //       console.log('Unread Messages:', count);
+  //     },
+  //     error: (err) => {
+  //       console.error('Failed to get notifications', err);
+  //     }
+  //   });
+  // }
 
   isUserLogin(): boolean {
     return this.authService.isUserLogin();

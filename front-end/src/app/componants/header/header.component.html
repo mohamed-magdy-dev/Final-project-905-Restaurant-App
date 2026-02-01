@@ -14,17 +14,17 @@
         <div class="nav-item nav-link active"><a routerLink="/products">Home</a></div> <div *ngIf="isUserLogin()" class="nav-item nav-link active"><a routerLink="/contact-info">Contact</a></div>
         <div *ngIf="isUserLogin()" class="nav-item nav-link active"><a routerLink="/chefs">Team</a></div>
         
-        <div class="nav-item nav-link active position-relative" *ngIf="isUserLogin()">
-            <a routerLink="/my-messages" style="cursor: pointer; position: relative; display: inline-block;">
-                <i class="fa fa-bell fa-lg"></i>
-                
-                <span *ngIf="unreadCount > 0" 
-                      class="position-absolute badge rounded-pill bg-danger"
-                      style="top: -5px; right: -10px; font-size: 0.6rem;">
-                    {{ unreadCount }}
-                </span>
-            </a>
-        </div>
+        <div class="nav-item nav-link active position-relative" *ngIf="isUserLogin() && !isAdmin()">
+    <a routerLink="/my-messages" style="cursor: pointer; position: relative; display: inline-block;">
+        <i class="fa fa-bell fa-lg"></i>
+        
+        <span *ngIf="unreadCount > 0" 
+              class="position-absolute badge rounded-pill bg-danger"
+              style="top: -5px; right: -10px; font-size: 0.6rem;">
+            {{ unreadCount }}
+        </span>
+    </a>
+</div>
         <div *ngIf="!isUserLogin()" class="nav-item nav-link active"><a routerLink="/login">login</a></div>
         <div *ngIf="!isUserLogin()" class="nav-item nav-link active"><a routerLink="/signup">signup</a></div>
         <div *ngIf="isUserLogin()" class="nav-item nav-link active"><a href="" (click)="logOut()">logout</a></div>

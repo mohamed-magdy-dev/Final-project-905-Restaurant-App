@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs'; // دول من هنا عادي
+import { tap } from 'rxjs/operators'; // التعديل: tap بتيجي من هنا
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,13 @@ export class ContactService {
 
   private apiUrl = 'http://localhost:8080/api/contact';
 
+  // 1. المخزن السحري للعداد (بيبدأ بصفر)
+  public unreadCount = new BehaviorSubject<number>(0);
+
   constructor(private http: HttpClient) { }
 
-  // --- Helper to get Token Headers ---
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token'); // تأكد إن ده الاسم الصح عندك
+    const token = localStorage.getItem('token');
     let headers = new HttpHeaders();
     if (token) {
       headers = headers.set('Authorization', 'Bearer ' + token);
@@ -21,32 +24,42 @@ export class ContactService {
     return headers;
   }
 
-  // 1. إرسال رسالة (User)
+  // --- دوال الـ API ---
+
   sendMessage(contactDto: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/send`, contactDto, { headers: this.getHeaders() });
   }
 
-  // 2. عداد النوتيفيكشن (User)
+  // 2. دالة جلب العداد وتحديث المخزن
   getUnreadCount(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/unread-count`, { headers: this.getHeaders() });
+    return this.http.get<number>(`${this.apiUrl}/unread-count`, { headers: this.getHeaders() })
+      .pipe(
+        tap(count => {
+          // تحديث المخزن أوتوماتيك
+          this.unreadCount.next(count);
+        })
+      );
   }
 
-  // 3. عرض الرسايل السابقة (User)
   getMyMessages(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/my-messages`, { headers: this.getHeaders() });
   }
 
-  // 4. تعليم الرسايل كمقروءة (User)
+  // 3. دالة التعليم كمقروء وتصفير المخزن
   markAsRead(): Observable<any> {
-    return this.http.put(`${this.apiUrl}/mark-read`, {}, { headers: this.getHeaders() });
+    return this.http.put(`${this.apiUrl}/mark-read`, {}, { headers: this.getHeaders() })
+      .pipe(
+        tap(() => {
+          // تصفير العداد فوراً
+          this.unreadCount.next(0);
+        })
+      );
   }
 
-  // 5. عرض كل الرسايل (Admin)
   getAllMessages(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/all`, { headers: this.getHeaders() });
   }
 
-  // 6. الرد على رسالة (Admin)
   replyToMessage(replyDto: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/reply`, replyDto, { headers: this.getHeaders() });
   }
