@@ -1,36 +1,41 @@
-<!-- Navbar & Hero Start -->
 <div class="container-xxl position-relative p-0">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
     <a routerLink="/products" class="navbar-brand p-0">
       <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
-      <!-- <img src="img/logo.png" alt="Logo"> -->
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
       <span class="fa fa-bars"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-      <input *ngIf="isUserLogin()" #key class="form-control" type="search" placeholder="Search" aria-label="Search" (input)="search(key.value)" >
-<!--      <button class="btn btn-outline-success" type="submit" (click)="search(key.value)">Search</button>-->
+      
+      <input *ngIf="isUserLogin()" #key class="form-control" type="search" placeholder="Search" aria-label="Search" (input)="search(key.value)">
+      
       <div class="navbar-nav ms-auto py-0 pe-4">
-        <div *ngIf="isUserLogin()" class="nav-item nav-link active"><a routerLink="/contact-info">Contact</a></div>
-        <div class="nav-item nav-link active"> </div>
+        <div class="nav-item nav-link active"><a routerLink="/products">Home</a></div> <div *ngIf="isUserLogin()" class="nav-item nav-link active"><a routerLink="/contact-info">Contact</a></div>
         <div *ngIf="isUserLogin()" class="nav-item nav-link active"><a routerLink="/chefs">Team</a></div>
+        
+        <div class="nav-item nav-link active position-relative" *ngIf="isUserLogin()">
+            <a routerLink="/my-messages" style="cursor: pointer; position: relative; display: inline-block;">
+                <i class="fa fa-bell fa-lg"></i>
+                
+                <span *ngIf="unreadCount > 0" 
+                      class="position-absolute badge rounded-pill bg-danger"
+                      style="top: -5px; right: -10px; font-size: 0.6rem;">
+                    {{ unreadCount }}
+                </span>
+            </a>
+        </div>
         <div *ngIf="!isUserLogin()" class="nav-item nav-link active"><a routerLink="/login">login</a></div>
         <div *ngIf="!isUserLogin()" class="nav-item nav-link active"><a routerLink="/signup">signup</a></div>
         <div *ngIf="isUserLogin()" class="nav-item nav-link active"><a href="" (click)="logOut()">logout</a></div>
-        <div class="nav-item nav-link active"> </div>
-
 
         <div class="nav-item dropdown" *ngIf="isUserLogin()">
-          <a href="#"
-             class="nav-link dropdown-toggle fw-bold text-uppercase"
-             data-bs-toggle="dropdown">
+          <a href="#" class="nav-link dropdown-toggle fw-bold text-uppercase" data-bs-toggle="dropdown">
             <i class="fa fa-list-alt me-2"></i> services
           </a>
-
           <div class="dropdown-menu shadow-lg rounded-3 border-0 p-2 animate__animated animate__fadeIn">
             <a routerLink="/orders-user" class="dropdown-item d-flex align-items-center rounded mb-1">
-              <i class="fa fa-box-open text-primary me-2"></i> Show Orders H
+              <i class="fa fa-box-open text-primary me-2"></i> My Orders
              </a>
             <a *ngIf="isAdmin()" href="booking.html" class="dropdown-item d-flex align-items-center rounded mb-1">
               <i class="fa fa-box-open text-primary me-2"></i> Show All Orders
@@ -44,19 +49,13 @@
             <a *ngIf="isAdmin()" href="booking.html" class="dropdown-item d-flex align-items-center rounded">
               <i class="fa fa-user-times text-danger me-2"></i> Remove Account
             </a>
-            <a *ngIf="isAdmin()" href="booking.html" class="dropdown-item d-flex align-items-center rounded">
-              <i class="fa fa-user-times text-danger me-2"></i> Contact Messages
-            </a>
-            <a  href="/profile" class="dropdown-item d-flex align-items-center rounded">
-              <i class="fa fa-user-times text-danger me-2"></i> update account details
-              <!-- *ngIf="isAdmin()" -->
+            <a href="/profile" class="dropdown-item d-flex align-items-center rounded">
+              <i class="fa fa-user-circle text-primary me-2"></i> Update Details
             </a>
           </div>
         </div>
 
       </div>
-
-
     </div>
     <app-card *ngIf="isUserLogin()"></app-card>
   </nav>
@@ -64,4 +63,3 @@
   <div class="container-xxl py-5 bg-dark hero-header mb-5">
   </div>
 </div>
-<!-- Navbar & Hero End -->

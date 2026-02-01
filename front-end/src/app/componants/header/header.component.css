@@ -1,0 +1,29 @@
+
+/* 1. النعومة: أي تغيير يحصل للناف بار، خليه ياخد نص ثانية */
+.navbar {
+    transition: all 0.5s ease-in-out;
+}
+
+/* 2. لما تبقى ستيكي (الجافا سكريبت بيضيف الكلاس ده) */
+.sticky-top {
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    /* ظل خفيف عشان الشكل يبقى 3D */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); 
+    /* حركة دخول ناعمة */
+    animation: fadeInDown 0.5s; 
+}
+
+/* 3. تعريف الانيميشن (لو مش موجود في التيمبلت) */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -100%, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
