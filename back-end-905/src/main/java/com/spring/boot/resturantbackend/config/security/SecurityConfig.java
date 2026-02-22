@@ -31,6 +31,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/**").permitAll()
+                        .requestMatchers("/products/**").permitAll() // <-- مؤقت
+                        .requestMatchers("/categories/**").permitAll()  // <-- مؤقت
                         .anyRequest().authenticated()
         );
         http.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);

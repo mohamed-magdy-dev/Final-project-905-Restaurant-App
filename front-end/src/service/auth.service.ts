@@ -8,13 +8,13 @@ import {map} from "rxjs/operators";
 })
 export class AuthService {
 
-  private baseUrl = 'http://localhost:9090/auth';  // login   signup
+  private baseUrl = 'http://localhost:8080/auth';  // login   signup
   constructor(private http: HttpClient) {
   }
 
 
-  createAccount(username, password): Observable<any> {
-    return this.http.post<any>(this.baseUrl + "/sign-up", {username, password}).pipe(
+  createAccount(username, password,email): Observable<any> {
+    return this.http.post<any>(this.baseUrl + "/sign-up", {username, password,email}).pipe(
       map(
         response => response
       )
@@ -40,6 +40,12 @@ export class AuthService {
       return false;
     }
     return roles.includes("ADMIN");
+  }
+
+  updateProfile(data: any): Observable<any> {
+    // تأكد إن الرابط ده مطابق للكونترولر بتاعك (account/profile)
+    // ولازم يكون معاك التوكن في الهيدر (الانترسبتور بيعملها غالباً)
+    return this.http.post('http://localhost:8080/account/profile', data);
   }
 
   logOut() {

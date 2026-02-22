@@ -1,0 +1,65 @@
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h5 class="section-title ff-secondary text-center text-primary fw-normal">Admin Dashboard</h5>
+        <h1 class="mb-5">All Customer Orders</h1>
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Order ID / Code</th>
+                            <th>Customer Order</th>
+                            <th>Date</th> <th>Total Price</th>
+                            <th>Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of orders">
+                            
+                            <td class="ps-4">
+                                <span class="fw-bold text-dark">#{{ order.id }}</span>
+                                <br>
+                                <small class="text-muted">{{ order.code || 'Unknown Code' }}</small>
+                            </td>
+
+                            <td>
+                                <ng-container *ngIf="order.products && order.products.length > 0; else noProducts">
+                                    <div *ngFor="let item of order.products" class="small text-muted">
+                                        • {{ item.name }} ({{ item.price | currency:'USD' }})
+                                    </div>
+                                </ng-container>
+                                <ng-template #noProducts>
+                                    <span class="text-danger small">No Products Info</span>
+                                </ng-template>
+                            </td>
+
+                            <td>
+                                <span class="text-muted small">
+                                    {{ (order.dateCreated | date:'medium') || 'Unknown Date' }}
+                                </span>
+                            </td>
+                            
+                            <td class="fw-bold text-success">
+                                {{ order.totalPrice | currency:'USD' }}
+                            </td>
+                            
+                            <td>
+                                <span class="badge bg-secondary rounded-pill">
+                                    {{ order.totalNumber }} Items
+                                </span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div *ngIf="orders.length === 0" class="text-center py-5">
+                <p class="text-muted">No orders found.</p>
+            </div>
+        </div>
+    </div>
+</div>

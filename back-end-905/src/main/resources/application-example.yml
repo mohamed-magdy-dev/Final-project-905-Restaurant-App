@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: backend
+
+  messages:
+    basename: i18n/messages
+
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    username: YOUR_DB_USERNAME
+    password: YOUR_DB_PASSWORD
+    driver-class-name: oracle.jdbc.OracleDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
+        format_sql: true
+
+  main:
+    banner-mode: "off"
+
+server:
+  port: 9090
+
+logging:
+  level:
+    root: info
+
+token:
+  secret: YOUR_TOKEN_SECRET
+  time: 24h

@@ -1,0 +1,99 @@
+/* تعريف الألوان الخاصة بالمشروع */
+:root {
+  --primary-navy: #0F172B;   /* لون الخلفية الجديد */
+  --primary-orange: #FEA116; /* لون التمييز */
+  --text-navy: #0F172B;
+}
+
+/* 1. تنسيق خلفية الصفحة بالكامل */
+.profile-page-wrapper {
+  background-color: #0F172B; /* الخلفية   */
+  min-height: 100vh; /* تأخذ طول الشاشة بالكامل */
+  padding: 40px 0;   /* مسافة من فوق وتحت */
+  width: 100%;
+}
+
+/* 2. تنسيق الكارت الأبيض */
+.profile-card {
+  background-color: #ffffff;
+  border-radius: 8px; /* حواف ناعمة لكن ليست دائرية جداً لتعطي طابع رسمي */
+  border-top: 5px solid #FEA116; /* الخط البرتقالي العلوي */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* ظل قوي ليفصل الكارت عن الخلفية */
+}
+
+/* 3. تنسيق أيقونة الهيدر */
+.icon-header {
+  width: 70px;
+  height: 70px;
+  background-color: #FFF6E5; /* خلفية برتقالي فاتح جداً */
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.icon-header i {
+  font-size: 30px;
+  color: #FEA116;
+}
+
+/* 4. تنسيق النصوص */
+.text-navy {
+  color: #0F172B;
+}
+.text-orange {
+  color: #FEA116;
+}
+.x-small {
+  font-size: 0.8rem;
+}
+
+/* 5. تحسين شكل الـ Inputs */
+/* جعل الخلفية رمادي فاتح لتمييز الحقل عن الكارت الأبيض */
+.form-control, .input-group-text {
+  background-color: #f8f9fa !important; 
+  border: 1px solid #e9ecef;
+  height: 50px; /* زيادة ارتفاع الحقل ليكون مريحاً */
+}
+
+.form-control:focus {
+  background-color: #fff !important;
+  border-color: #FEA116; /* بوردر برتقالي عند الكتابة */
+  box-shadow: none;
+}
+/* جعل أيقونة الإدخال تتوهج أيضاً */
+.form-control:focus + .input-group-text, 
+.input-group:focus-within .input-group-text {
+  border-color: #FEA116;
+  background-color: #fff !important;
+}
+
+/* 6. زر الأكشن */
+.btn-primary-orange {
+  background-color: #FEA116;
+  border: none;
+  color: #fff;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+}
+
+.btn-primary-orange:hover {
+  background-color: #d88912;
+  transform: translateY(-2px);
+  color: #fff;
+}
+.btn-primary-orange:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ليه عملنا التعديلات دي؟ (UX Rationale)
+تناسق بصري (Visual Consistency): استخدمنا نفس الـ Palette (الكحلي #0F172B والبرتقالي #FEA116) عشان المستخدم ميحسش إنه خرج من الموقع لما يدخل يكمل بياناته.
+
+أيقونات (Icons): العين بتلقط الصورة أسرع من الكلام. وجود أيقونة "تليفون" بيخلي المستخدم يفهم المطلوب أسرع ما يقرأ كلمة "Phone Number".
+
+تفاعل (Feedback): لما المستخدم يضغط جوه الـ Input، البوردر بيتحول لبرتقالي، ده بيدي إحساس إن السيستم "حي" ومتفاعل معاه.
+
+التركيز (Focus): شلنا حدود الكارت القديمة (Header Box) وخلينا التصميم Clean أكتر عشان العين تركز على تعبئة البيانات بس. */

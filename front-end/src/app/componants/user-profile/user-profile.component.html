@@ -1,0 +1,76 @@
+<div class="profile-page-wrapper d-flex align-items-center justify-content-center">
+  
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-5"> <div class="profile-card shadow-lg p-4 p-md-5">
+          
+          <div class="text-center mb-5">
+            <div class="icon-header mb-3">
+              <i class="fa fa-user-edit"></i>
+            </div>
+            <h3 class="fw-bold text-navy text-uppercase">Complete Profile</h3>
+            <p class="text-muted small">We need a few details to deliver your order</p>
+          </div>
+
+         <form *ngIf="profileForm" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+            <div class="form-group mb-4">
+              <label class="fw-bold text-navy small mb-1">YOUR ADDRESS</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                  <i class="fa fa-map-marker-alt text-orange"></i>
+                </span>
+                <input type="text" class="form-control bg-light border-start-0" 
+                       formControlName="address" 
+                       placeholder="e.g. Cairo, Nasr City, St. 9">
+              </div>
+              <div *ngIf="profileForm.get('address')?.invalid && profileForm.get('address')?.touched" class="text-danger x-small mt-1">
+                 <i class="fa fa-info-circle"></i> Address is required (min 5 chars).
+              </div>
+            </div>
+
+            <div class="form-group mb-4">
+              <label class="fw-bold text-navy small mb-1">PHONE NUMBER</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                  <i class="fa fa-phone text-orange"></i>
+                </span>
+                <input type="text" class="form-control bg-light border-start-0" 
+                       formControlName="phoneNumber" 
+                       placeholder="e.g. 010xxxxxxx">
+              </div>
+              <div *ngIf="profileForm.get('phoneNumber')?.invalid && profileForm.get('phoneNumber')?.touched" class="text-danger x-small mt-1">
+                 <i class="fa fa-info-circle"></i> Must be 11 digits starting with 01.
+              </div>
+            </div>
+
+            <div class="form-group mb-4">
+              <label class="fw-bold text-navy small mb-1">AGE</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                  <i class="fa fa-hourglass-half text-orange"></i>
+                </span>
+                <input type="number" class="form-control bg-light border-start-0" 
+                       formControlName="age" placeholder="e.g. 25">
+              </div>
+              <div *ngIf="profileForm.get('age')?.invalid && profileForm.get('age')?.touched" class="text-danger x-small mt-1">
+                 <span *ngIf="profileForm.get('age')?.hasError('min')">Minimum age is 10.</span>
+                 <span *ngIf="profileForm.get('age')?.hasError('max')">Maximum age is 100.</span>
+                 <span *ngIf="profileForm.get('age')?.hasError('required')">Age is required.</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary-orange w-100 py-3 fw-bold text-uppercase mt-2" [disabled]="profileForm.invalid">
+              Update & Continue <i class="fa fa-arrow-right ms-2"></i>
+            </button>
+
+            <div *ngIf="message" class="alert mt-4 text-center" [ngClass]="isSuccess ? 'alert-success' : 'alert-danger'">
+              {{ message }}
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

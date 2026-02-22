@@ -5,3 +5,4 @@ dist/
 # Spring Boot
 target/
 *.log
+application.yml

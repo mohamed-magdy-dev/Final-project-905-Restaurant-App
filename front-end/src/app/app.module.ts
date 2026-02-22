@@ -1,56 +1,59 @@
-import {RouterModule, Routes} from '@angular/router';
-import {AppComponent} from './app.component';
-import {NgModule} from '@angular/core';
-import {ProductsComponent} from './componants/products/products.component';
-import {HeaderComponent} from './componants/header/header.component';
-import {CategoryComponent} from './componants/category/category.component';
-import {CardDetailsComponent} from './componants/card-details/card-details.component';
-import {CardComponent} from './componants/card/card.component';
-import {BrowserModule} from '@angular/platform-browser';
-import {FooterComponent} from './componants/footer/footer.component';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { RouterModule, Routes } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // FormsModule مهم جدا هنا
+import { NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
+import { APP_BASE_HREF } from '@angular/common';
+
+// Components Imports
+import { AppComponent } from './app.component';
+import { ProductsComponent } from './componants/products/products.component';
+import { HeaderComponent } from './componants/header/header.component';
+import { CategoryComponent } from './componants/category/category.component';
+import { CardDetailsComponent } from './componants/card-details/card-details.component';
+import { CardComponent } from './componants/card/card.component';
+import { FooterComponent } from './componants/footer/footer.component';
 import { ChefsComponent } from './componants/chefs/chefs.component';
 import { ContactInfoComponent } from './componants/contact-info/contact-info.component';
-import {APP_BASE_HREF} from '@angular/common';
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './componants/login/login.component';
 import { SignupComponent } from './componants/signup/signup.component';
-import {AuthInterceptor} from "../interceptors/auth.interceptor";
-import {AuthGuard} from "../guard/auth.guard";
-import {LoginSignUpGuard} from "../guard/login-sign-up.guard";
-import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import { OrderCodeComponent } from './componants/order-code/order-code.component';
 import { OrderUserComponent } from './componants/order-user/order-user.component';
+import { UserProfileComponent } from './componants/user-profile/user-profile.component';
+import { OrderSummaryComponent } from './componants/order-summary/order-summary.component';
+import { MyMessagesComponent } from './componants/my-messages/my-messages.component';
+import { AdminMessagesComponent } from './componants/admin-messages/admin-messages.component';
+import { AuthGuard } from 'src/guard/auth.guard';
+import { LoginSignUpGuard } from 'src/guard/login-sign-up.guard';
+import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
+import { AdminDashboardComponent } from './componants/admin-dashboard/admin-dashboard.component';
+import { AdminOrdersComponent } from './componants/admin-orders/admin-orders.component';
 
-// http://localhost:4200/
+// Interceptors & Guards
+
+
 export const routes: Routes = [
-
-  // http://localhost:4200/products
   {path: 'products', component: ProductsComponent, canActivate:[AuthGuard]},
   {path: 'category/:id', component: ProductsComponent, canActivate:[AuthGuard]},
   {path: 'products/:key', component: ProductsComponent, canActivate:[AuthGuard]},
-  // http://localhost:4200/cardDetails
+  {path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   {path: 'cardDetails', component: CardDetailsComponent, canActivate:[AuthGuard]},
   {path: 'contact-info', component: ContactInfoComponent, canActivate:[AuthGuard]},
+  {path: 'order-summary/:code', component: OrderSummaryComponent},
   {path: 'login', component: LoginComponent, canActivate:[LoginSignUpGuard]},
   {path: 'signup', component: SignupComponent, canActivate:[LoginSignUpGuard]},
   {path: 'chefs', component: ChefsComponent, canActivate:[AuthGuard]},
+  {path: 'my-messages', component: MyMessagesComponent, canActivate:[AuthGuard]},
+  {path: 'admin-messages', component: AdminMessagesComponent, canActivate:[AuthGuard] },
+  {path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard] },
+  {path: 'admin-orders', component: AdminOrdersComponent, canActivate: [AuthGuard] },
   {path: 'order-code/:code', component: OrderCodeComponent, canActivate:[AuthGuard]},
   {path: 'orders-user', component: OrderUserComponent, canActivate:[AuthGuard]},
-  // http://localhost:4200/
   {path: '', redirectTo: '/products', pathMatch: 'full'},
-
-  // if user enter thing without all routes
-  // http://localhost:4200/ghy
   {path: '**', redirectTo: '/products', pathMatch: 'full'}
-
 ];
 
-
-
-/*
-*   // http://localhost:4200/
-  {path: '', component:OrderItemsComponent}
-* */
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,18 +68,26 @@ export const routes: Routes = [
     LoginComponent,
     SignupComponent,
     OrderCodeComponent,
-    OrderUserComponent
+    OrderUserComponent,
+    UserProfileComponent,
+    OrderSummaryComponent,
+    MyMessagesComponent,
+    AdminMessagesComponent,
+    AdminDashboardComponent,
+    AdminOrdersComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
     HttpClientModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    ReactiveFormsModule,
+    FormsModule // ده اللي بيحل مشكلة ngModel
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: APP_BASE_HREF, useValue: '/' }],
-  bootstrap: [
-    AppComponent
-  ]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: APP_BASE_HREF, useValue: '/' }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

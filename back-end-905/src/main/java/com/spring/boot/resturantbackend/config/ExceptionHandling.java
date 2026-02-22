@@ -10,8 +10,19 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.Map;
+
 @ControllerAdvice
 public class ExceptionHandling {
+    // For profile Handle -->
+    @ExceptionHandler(ProfileIncompleteException.class)
+    public ResponseEntity<?> handleProfileIncomplete(ProfileIncompleteException exception) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of(
+                        "message", exception.getMessage()
+                ));
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionDto> handleException(Exception exception) {
