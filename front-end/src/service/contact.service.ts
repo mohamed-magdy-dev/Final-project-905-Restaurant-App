@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs'; // دول من هنا عادي
-import { tap } from 'rxjs/operators'; // التعديل: tap بتيجي من هنا
+import { Observable, BehaviorSubject } from 'rxjs'; 
+import { tap } from 'rxjs/operators'; 
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,6 @@ export class ContactService {
 
   private apiUrl = 'http://localhost:8080/api/contact';
 
-  // 1. المخزن السحري للعداد (بيبدأ بصفر)
   public unreadCount = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) { }
@@ -24,18 +23,16 @@ export class ContactService {
     return headers;
   }
 
-  // --- دوال الـ API ---
+ 
 
   sendMessage(contactDto: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/send`, contactDto, { headers: this.getHeaders() });
   }
 
-  // 2. دالة جلب العداد وتحديث المخزن
   getUnreadCount(): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/unread-count`, { headers: this.getHeaders() })
       .pipe(
         tap(count => {
-          // تحديث المخزن أوتوماتيك
           this.unreadCount.next(count);
         })
       );
@@ -45,12 +42,10 @@ export class ContactService {
     return this.http.get<any[]>(`${this.apiUrl}/my-messages`, { headers: this.getHeaders() });
   }
 
-  // 3. دالة التعليم كمقروء وتصفير المخزن
   markAsRead(): Observable<any> {
     return this.http.put(`${this.apiUrl}/mark-read`, {}, { headers: this.getHeaders() })
       .pipe(
         tap(() => {
-          // تصفير العداد فوراً
           this.unreadCount.next(0);
         })
       );
