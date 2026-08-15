@@ -32,15 +32,11 @@ public class AuthServiceImpl implements AuthService {
 
         AccountDto accountDto = new AccountDto();
         accountDto.setUsername(vm.getUsername());
-        accountDto.setPassword(passwordEncoder.encode(vm.getPassword()));
+        accountDto.setPassword(vm.getPassword());
         accountDto.setEmail(vm.getEmail());
         accountDto.setEnabled("Y");
-
         accountDto = accountService.createAccount(accountDto);
-
-        AccountAuthResponseVm response =
-                AccountMapper.ACCOUNT_MAPPER.toAccountResponseVm(accountDto);
-
+        AccountAuthResponseVm response = AccountMapper.ACCOUNT_MAPPER.toAccountResponseVm(accountDto);
         response.setToken(tokenHandler.generateToken(accountDto));
         response.setUserRoles(getAccountRoles(accountDto));
 

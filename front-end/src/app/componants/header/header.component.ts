@@ -54,6 +54,10 @@ export class HeaderComponent implements OnInit { // 1. زودنا implements OnI
     return this.authService.isAdmin();
   }
 
+  isAuthPage(): boolean {
+  return this.routes.url === '/login' || this.routes.url === '/signup';
+} // this.routes.url: bring the url that the Angular is currently on
+
   search(key: any){ // زودت any عشان التايب سكريبت ميزعلش
     this.routes.navigateByUrl("/products/" + key);
   }

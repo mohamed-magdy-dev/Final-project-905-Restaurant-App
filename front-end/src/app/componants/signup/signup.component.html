@@ -50,6 +50,10 @@
     (click)="createAccount(username.value, password.value, confirmPassword.value, email.value)">
     Sign Up
   </button>
+  <div class="text-center mt-3">
+    Already have an account?
+    <a routerLink="/login">Login</a>
+</div>
   
   <div *ngIf="messageAr || messageEn" class="alert alert-danger notification">
     <strong>{{messageEn}}</strong><br>

@@ -11,6 +11,7 @@ export class LoginComponent implements OnInit {
 
   messageAr: string = '';
   messageEn: string = '';
+  showPassword: boolean = false; // password reveal feature if true --> password type=password, if not then password = text (for now)
   constructor(private authService: AuthService, private routes: Router) { }
 
   ngOnInit(): void {
