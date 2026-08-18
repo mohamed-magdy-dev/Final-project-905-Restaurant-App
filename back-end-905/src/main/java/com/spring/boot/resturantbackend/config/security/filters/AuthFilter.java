@@ -72,9 +72,9 @@ public class AuthFilter extends OncePerRequestFilter {
         }
     }
 
+    // "shouldNotFilter" is to control the filters :
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        // ضفتلك هنا كمان المنتجات والأقسام والصور زيادة في الأمان
         String path = request.getRequestURI();
         return path.contains("/auth") ||
                 path.contains("/swagger-ui") ||

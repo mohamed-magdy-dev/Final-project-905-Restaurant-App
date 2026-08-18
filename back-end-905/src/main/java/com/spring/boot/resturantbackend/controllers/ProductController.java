@@ -2,6 +2,7 @@ package com.spring.boot.resturantbackend.controllers;
 
 import com.spring.boot.resturantbackend.controllers.vm.ProductResponseVm;
 import com.spring.boot.resturantbackend.dto.ExceptionDto;
+import com.spring.boot.resturantbackend.dto.ProductDto;
 import com.spring.boot.resturantbackend.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.SystemException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -152,5 +154,19 @@ public class ProductController {
     )
             throws SystemException {
         return ResponseEntity.ok(productService.getAllProductsByCategoryIdAndKey(categoryId, key, page, size));
+    }
+
+    // adding / deleting products
+
+    @Operation(summary = "Create a new product (Food)") // swagger baby!
+    @PostMapping("/add")
+    public ResponseEntity<ProductDto> createProduct(@RequestBody @Valid ProductDto productDto) {
+        return ResponseEntity.ok(productService.createProduct(productDto));
+    }
+    @Operation(summary = "Delete a product by ID")
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.deleteProductById(id);
+        return ResponseEntity.noContent().build();
     }
 }
