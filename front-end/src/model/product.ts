@@ -5,4 +5,8 @@ export class Product {
   price: number;
   imagePath: string;
 
+    // Category selected for this product
+  category: {
+    id: number;
+  };
 }

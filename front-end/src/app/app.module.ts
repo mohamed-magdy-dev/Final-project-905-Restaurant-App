@@ -29,6 +29,7 @@ import { LoginSignUpGuard } from 'src/guard/login-sign-up.guard';
 import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
 import { AdminDashboardComponent } from './componants/admin-dashboard/admin-dashboard.component';
 import { AdminOrdersComponent } from './componants/admin-orders/admin-orders.component';
+import { AdminFoodComponent } from './componants/admin-food/admin-food.component';
 
 // Interceptors & Guards
 
@@ -48,6 +49,7 @@ export const routes: Routes = [
   {path: 'admin-messages', component: AdminMessagesComponent, canActivate:[AuthGuard] },
   {path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard] },
   {path: 'admin-orders', component: AdminOrdersComponent, canActivate: [AuthGuard] },
+  {path: 'admin-food', component: AdminFoodComponent, canActivate: [AuthGuard]},
   {path: 'order-code/:code', component: OrderCodeComponent, canActivate:[AuthGuard]},
   {path: 'orders-user', component: OrderUserComponent, canActivate:[AuthGuard]},
   {path: '', redirectTo: '/products', pathMatch: 'full'},
@@ -74,7 +76,8 @@ export const routes: Routes = [
     MyMessagesComponent,
     AdminMessagesComponent,
     AdminDashboardComponent,
-    AdminOrdersComponent
+    AdminOrdersComponent,
+    AdminFoodComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
