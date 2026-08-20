@@ -75,26 +75,37 @@
       </div>
     </div>
 
-    <!-- DELETE PRODUCT -->
-    <div class="card p-4 shadow-sm">
+    <!-- PRODUCTS LIST -->
+<div class="card p-4 shadow-sm">
 
-      <h3 class="mb-4">Delete Food</h3>
+  <h3 class="mb-4">Current Food</h3>
 
-      <div class="input-group">
-        <input
-          [(ngModel)]="deleteId"
-          type="number"
-          class="form-control"
-          placeholder="Enter product ID">
+  <div
+    *ngFor="let product of products"
+    class="d-flex justify-content-between align-items-center border-bottom py-3">
 
-        <button
-          class="btn btn-danger"
-          (click)="deleteProduct()">
-          Delete
-        </button>
-      </div>
+    <div>
+      <h5 class="mb-1">{{ product.name }}</h5>
 
+      <small class="text-muted">
+        ID: {{ product.id }}
+        |
+        ${{ product.price }}
+      </small>
     </div>
+
+    <button
+      class="btn btn-danger btn-sm"
+      (click)="deleteProduct(product.id)">
+
+      <i class="fa fa-trash me-1"></i>
+      Delete
+
+    </button>
+
+  </div>
+
+</div>
 
     <!-- MESSAGE -->
     <div *ngIf="message" class="alert alert-info mt-4">

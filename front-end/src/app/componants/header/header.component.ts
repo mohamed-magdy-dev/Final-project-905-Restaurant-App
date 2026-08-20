@@ -17,10 +17,10 @@ export class HeaderComponent implements OnInit { // 1. زودنا implements OnI
   constructor(
     private routes: Router, 
     private authService: AuthService,
-    private contactService: ContactService // 2. حقنا السيرفس هنا
+    private contactService: ContactService // 2. حقنا السيرفس 
   ) {}
 
-  // 3. دالة التشغيل أول ما الصفحة تفتح
+  // 3.  التشغيل أول ما الصفحة تفتح
   ngOnInit(): void {
    if (this.isUserLogin()) {
       // 1. نادي الـ API عشان يجيب أول رقم ويحطه في المخزن
@@ -33,19 +33,6 @@ export class HeaderComponent implements OnInit { // 1. زودنا implements OnI
     }
   }
   
-
-  // getNotificationCount() {
-  //   this.contactService.getUnreadCount().subscribe({
-  //     next: (count) => {
-  //       this.unreadCount = count;
-  //       console.log('Unread Messages:', count);
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to get notifications', err);
-  //     }
-  //   });
-  // }
-
   isUserLogin(): boolean {
     return this.authService.isUserLogin();
   }

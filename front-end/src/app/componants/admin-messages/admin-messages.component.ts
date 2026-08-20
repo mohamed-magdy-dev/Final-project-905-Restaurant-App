@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// التعديل: ضبطنا المسار ليكون خطوتين بس لورا
 import { ContactService } from '../../../service/contact.service'; 
 
 @Component({

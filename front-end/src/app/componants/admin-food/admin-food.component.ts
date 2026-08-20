@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product } from "../../../model/product";
 import { ProductService } from "../../../service/product.service";
 
@@ -7,10 +7,10 @@ import { ProductService } from "../../../service/product.service";
   templateUrl: './admin-food.component.html',
   styleUrls: ['./admin-food.component.css']
 })
-export class AdminFoodComponent {
+export class AdminFoodComponent implements OnInit {
 
-  // Product we are creating
- product: Product = {
+  // product 
+  product: Product = {
     id: null,
     name: '',
     description: '',
@@ -21,14 +21,31 @@ export class AdminFoodComponent {
     }
   };
 
-  // ID of product to delete
-  deleteId: number;
+  products: Product[] = [];
 
+  deleteId: number;
   message: string = '';
 
   constructor(private productService: ProductService) {
   }
 
+  ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  // Get all products
+  loadProducts() {
+    this.productService.getProducts(1, 100).subscribe(
+      response => {
+        this.products = response.products;
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
+  // Add product
   addProduct() {
 
     this.productService.addProduct(this.product).subscribe(
@@ -36,6 +53,10 @@ export class AdminFoodComponent {
 
         this.message = 'Food added successfully!';
 
+        // Refresh product list
+        this.loadProducts();
+
+        // Clear form
         this.product = {
           id: null,
           name: '',
@@ -44,34 +65,29 @@ export class AdminFoodComponent {
           imagePath: '',
           category: {
             id: null
-          } };
-          
-
-        console.log('Added product:', response);
+          }
+        };
       },
       error => {
-
         this.message = 'Failed to add food.';
-
         console.error(error);
       }
     );
   }
 
-  deleteProduct() {
+  // Delete product
+  deleteProduct(id: number) {
 
-    this.productService.deleteProduct(this.deleteId).subscribe(
+    this.productService.deleteProduct(id).subscribe(
       response => {
 
         this.message = 'Food deleted successfully!';
 
-        this.deleteId = null;
-
+        // Refresh list
+        this.loadProducts();
       },
       error => {
-
         this.message = 'Failed to delete food.';
-
         console.error(error);
       }
     );
