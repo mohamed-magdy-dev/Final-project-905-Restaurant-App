@@ -6,7 +6,7 @@ import { Product } from "../model/product";
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class ProductService { // the connection to the backend
 
   baseUrl = 'http://localhost:8080/products/';
 

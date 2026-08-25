@@ -4,6 +4,20 @@
         <h1 class="mb-5">Customer Messages</h1>
     </div>
 
+    <!-- ضيف الجزء ده هنا عشان يعرض الرسايل -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div *ngIf="successMessage" class="alert alert-success text-center mb-4 shadow-sm">
+                <i class="fa fa-check-circle me-2"></i> {{ successMessage }}
+            </div>
+            <div *ngIf="errorMessage" class="alert alert-danger text-center mb-4 shadow-sm">
+                <i class="fa fa-exclamation-circle me-2"></i> {{ errorMessage }}
+            </div>
+        </div>
+    </div>
+    <!-- بداية الـ card بتاع الجدول الموجود عندك أصلاً -->
+
+
     <div class="card shadow border-0">
         <div class="card-body p-0">
             <div class="table-responsive">

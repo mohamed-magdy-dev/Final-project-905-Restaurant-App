@@ -10,7 +10,5 @@ public interface AuthService {
     AccountAuthResponseVm signUp(SignupRequestVm vm);
 
     AccountAuthResponseVm login(LoginRequestVm vm);
-    //    AccountAuthResponseVm signUp(AccountAuthRequestVm accountAuthRequestVm);
-//
-//    AccountAuthResponseVm login(AccountAuthRequestVm accountAuthRequestVm);
+
 }

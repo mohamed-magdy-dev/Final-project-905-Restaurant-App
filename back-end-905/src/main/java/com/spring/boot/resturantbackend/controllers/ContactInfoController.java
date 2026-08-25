@@ -19,9 +19,10 @@ public class ContactInfoController {
     @Autowired
     private ContactInfoService contactInfoService;
 
-    @PostMapping("/send")
+    @PostMapping("/send") // POST /api/contact/send
     public ResponseEntity<?> sendMessage(@RequestBody ContactInfoDto contactInfoDto) {
         try {
+            // takes the request and deliver to service "contactInfoService"
             ContactInfoDto savedMessage = contactInfoService.createContactInfo(contactInfoDto);
             return new ResponseEntity<>(savedMessage, HttpStatus.OK);
         } catch (RuntimeException e) {
@@ -31,43 +32,41 @@ public class ContactInfoController {
                         .status(HttpStatus.FORBIDDEN) // 403 Forbidden
                         .body(Collections.singletonMap("error", "PROFILE_INCOMPLETE"));
             }
-            // أي خطأ تاني
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
     @GetMapping("/unread-count")
     public ResponseEntity<Long> getUnreadCount() {
-        // هنجيب اليوزر من التوكين (زي ما اتعلمنا)
+        // we call the user from the token
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        // دي دالة هنعملها في السيرفس حالاً
+
         long count = contactInfoService.countUnreadMessagesForUser(username);
         return ResponseEntity.ok(count);
     }
-
-    // 2. لليوزر: عشان يشوف كل رسايله السابقة
+    // for user to view all previous messages
     @GetMapping("/my-messages")
     public ResponseEntity<List<ContactInfoDto>> getMyMessages() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(contactInfoService.getMyMessages(username));
     }
 
-    // 3. لليوزر: لما يفتح صفحة الرسايل، نعتبرها "اتقرت" عشان الجرس يطفي
-    @PutMapping("/mark-read")
+    // for user when he openes the message,the notification disappears.
+    @PutMapping("/mark-read") // mark-read
     public ResponseEntity<?> markMessagesAsRead() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         contactInfoService.markAllAsRead(username);
         return ResponseEntity.ok().build();
     }
 
-    // 4. للأدمن: عشان يشوف كل رسايل الناس
+    // for admin to view all messages
     @GetMapping("/all")
-    // @PreAuthorize("hasRole('ADMIN')") // لو عندك Roles فعل دي
     public ResponseEntity<List<ContactInfoDto>> getAllMessages() {
         return ResponseEntity.ok(contactInfoService.getAllMessages());
     }
 
-    // 5. للأدمن: عشان يرد
+    // For admin to reply
     @PostMapping("/reply")
     public ResponseEntity<?> replyToMessage(@RequestBody ContactInfoDto replyDto) {
         contactInfoService.replyToMessage(replyDto);

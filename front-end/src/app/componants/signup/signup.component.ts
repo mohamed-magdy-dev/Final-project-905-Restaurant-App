@@ -17,15 +17,16 @@ export class SignupComponent implements OnInit {
   }
 
   createAccount(username, password, confirmPassword, email) {
-    if(!this.validateAccount(username, password, confirmPassword, email)){
+    if(!this.validateAccount(username, password, confirmPassword, email)){ // local validation 
       setTimeout(() => {
         this.messageAr = "";
         this.messageEn = "";
       }, 3000);
       return;
     }
-
-    this.authService.createAccount(username, password, email).subscribe(
+    
+    // 
+    this.authService.createAccount(username, password, email).subscribe( // Auto login -> when successfully signed up, move to main page   
       response => {
         sessionStorage.setItem("token", response.token);
         sessionStorage.setItem("roles", response.userRoles);

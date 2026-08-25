@@ -9,8 +9,9 @@ import { ContactService } from '../../../service/contact.service';
 export class AdminMessagesComponent implements OnInit {
 
   messages: any[] = [];
+  successMessage = ''; // success message variable
+  errorMessage = '';   // EError message variable
   
-  // صندوق الرد
   replyData = {
     id: null,
     adminReply: ''
@@ -41,18 +42,30 @@ export class AdminMessagesComponent implements OnInit {
 
     this.contactService.replyToMessage(this.replyData).subscribe({
       next: (res) => {
-        alert('Reply sent successfully!');
+        this.successMessage = 'Reply sent successfully!';
         
-        // قفل المودال (Button Click Simulation)
+        // for modal to close automatically
         const modalBtn = document.getElementById('closeModalBtn');
         if (modalBtn) modalBtn.click();
         
-        // تحديث الجدول
         this.loadAllMessages();
+
+        //timeout
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 4000);
       },
       error: (err) => {
         console.error('Reply failed', err);
-        alert('Error sending reply');
+        this.errorMessage = 'Error sending reply. Please try again.';
+        
+        // close modal (if error) so that it shows to the admin
+        const modalBtn = document.getElementById('closeModalBtn');
+        if (modalBtn) modalBtn.click();
+
+        setTimeout(() => {
+          this.errorMessage = '';
+        }, 4000);
       }
     });
   }

@@ -28,7 +28,7 @@ public class AuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            // 1- get token from headers
+            //  get token from headers
             String token = request.getHeader("Authorization");
 
             // لو مفيش توكن، كمل عادي ومتوقفش الريكوست
@@ -37,7 +37,7 @@ public class AuthFilter extends OncePerRequestFilter {
                 return;
             }
             token = token.substring(7);
-            // 3- validate token
+            //  validate token
             AccountDto userValidated = tokenHandler.validateToken(token);
 
             //  وهنا كمان: لو التوكن مش سليم، كمل برضه والسبرينج هو اللي هيتصرف
@@ -45,20 +45,20 @@ public class AuthFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
                 return;
             }
-            // 4- get roles
+            //  get roles
             List<SimpleGrantedAuthority> roles = userValidated.getRoles().stream().map(
                     role -> new SimpleGrantedAuthority("ROLE_" + role.getRole())
             ).toList();
 
-            // 5- encapsulate user data
+            //  encapsulate user data
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                     userValidated,
                     userValidated.getPassword(),
                     roles
             );
-            // 6- Set Authentication
+            //  Set Authentication
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            // 7- Continue
+            //  Continue
             filterChain.doFilter(request, response);
 
         } catch (SystemException e) {

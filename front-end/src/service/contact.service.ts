@@ -15,7 +15,7 @@ export class ContactService {
   constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token'); // we sending the JWT with the request 1
     let headers = new HttpHeaders();
     if (token) {
       headers = headers.set('Authorization', 'Bearer ' + token);
@@ -24,10 +24,10 @@ export class ContactService {
   }
 
  
-
+  // we have this url 'http://localhost:8080/api/contact' and this function will add "/send" to it
   sendMessage(contactDto: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/send`, contactDto, { headers: this.getHeaders() });
-  }
+  } // so that the endpoint is something like this --> POST http://localhost:8080/api/contact/send
 
   getUnreadCount(): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/unread-count`, { headers: this.getHeaders() })

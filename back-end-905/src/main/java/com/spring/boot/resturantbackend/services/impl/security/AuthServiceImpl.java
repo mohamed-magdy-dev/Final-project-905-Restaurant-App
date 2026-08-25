@@ -31,14 +31,14 @@ public class AuthServiceImpl implements AuthService {
     public AccountAuthResponseVm signUp(SignupRequestVm vm) {
 
         AccountDto accountDto = new AccountDto();
-        accountDto.setUsername(vm.getUsername());
-        accountDto.setPassword(vm.getPassword());
+        accountDto.setUsername(vm.getUsername());//storing username
+        accountDto.setPassword(vm.getPassword());//
         accountDto.setEmail(vm.getEmail());
-        accountDto.setEnabled("Y");
+        accountDto.setEnabled("Y");//activate the account
         accountDto = accountService.createAccount(accountDto);
         AccountAuthResponseVm response = AccountMapper.ACCOUNT_MAPPER.toAccountResponseVm(accountDto);
-        response.setToken(tokenHandler.generateToken(accountDto));
-        response.setUserRoles(getAccountRoles(accountDto));
+        response.setToken(tokenHandler.generateToken(accountDto)); // token generate
+        response.setUserRoles(getAccountRoles(accountDto)); // getting the roles
 
         return response;
     }
@@ -46,21 +46,22 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AccountAuthResponseVm login(LoginRequestVm vm) {
-
+        // bring the "account" that the user wrote its "username"
         AccountDto accountDto =
                 accountService.getAccountByUsername(vm.getUsername());
 
-        if (accountDto == null) {
+        if (accountDto == null) { // if not found? exception.
             throw new RuntimeException("not_found.account");
         }
-
+        //We use "PasswordEncoder" to verify that the password the user typed matches the stored hash password.
+        // if password doesnt match? exception
         if (!passwordEncoder.matches(vm.getPassword(), accountDto.getPassword())) {
             throw new RuntimeException("error.invalid.credentials");
         }
 
+        //If password is correct? continue on..
         AccountAuthResponseVm response =
                 AccountMapper.ACCOUNT_MAPPER.toAccountResponseVm(accountDto);
-
         response.setToken(tokenHandler.generateToken(accountDto));
         response.setUserRoles(getAccountRoles(accountDto));
 

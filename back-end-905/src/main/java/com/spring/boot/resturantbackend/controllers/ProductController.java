@@ -158,7 +158,7 @@ public class ProductController {
 
     // adding / deleting products
 
-    @Operation(summary = "Create a new product (Food)") // swagger baby!
+    @Operation(summary = "Create a new product (Food)") // swagger
     @PostMapping("/add")
     public ResponseEntity<ProductDto> createProduct(@RequestBody @Valid ProductDto productDto) {
         return ResponseEntity.ok(productService.createProduct(productDto));

@@ -27,38 +27,31 @@ public class ContactInfoServiceImpl implements ContactInfoService {
     @Autowired
     private AccountRepo accountRepo;
 
-    // =========================================================================
-    //  Helper Method: دي "المفتاح" اللي بيجيب الاسم الصح من غير تكرار
-    // =========================================================================
+    //  Helper Method: this is the key that will bring the correct name without repeating
     private String getCurrentUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // تأمين: لو لسبب ما الـ Principal مش AccountDto (زي AnonymousUser)
+        // to make sure .. if for some reason "Principal" is not AccountDTO
         if (authentication.getPrincipal() instanceof AccountDto) {
             AccountDto principal = (AccountDto) authentication.getPrincipal();
             return principal.getUsername();
         }
-
-        // لو مش DTO، رجع الاسم العادي (احتياطي)
+        // if not DTO then return the normal name
         return authentication.getName();
     }
-
-    // =========================================================================
-    //  1. إرسال رسالة جديدة
-    // =========================================================================
+    // send new message
     @Override
     public ContactInfoDto createContactInfo(ContactInfoDto contactInfoDto) {
         try {
             if (Objects.nonNull(contactInfoDto.getId())) {
                 throw new RuntimeException("id.must_be.null");
             }
-
-            // التعديل: استخدمنا الدالة المساعدة
             String username = getCurrentUsername();
-
             Account account = accountRepo.findByUsername(username)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
+            // this is the important Method
+            // it makes SURE that the user has completed his profile first!
             if (account.getAccountDetails() == null) {
                 throw new RuntimeException("PROFILE_INCOMPLETE");
             }
@@ -81,17 +74,15 @@ public class ContactInfoServiceImpl implements ContactInfoService {
         }
     }
 
-    // =========================================================================
-    //  2. عداد النوتيفيكشن (The Fix is HERE)
-    // =========================================================================
+    // notification count
     @Override
     public long countUnreadMessagesForUser(String usernameIgnored) {
-        // ملحوظة: احنا تجاهلنا المتغير اللي جاي في الباراميتر وهنجيب اليوزر الحقيقي من التوكين
-        // عشان نضمن ان مفيش حد بيجيب رسايل حد تاني
+        //Here we get the user (Info) from the token itself.. instead of what is coming from (String usernameIgnored)
+        // to make sure it doesnt mix up
         String realUsername = getCurrentUsername();
         //debugging print
-        System.out.println("========== DEBUG COUNT START ==========");
-        System.out.println("User asking for count (FIXED): " + realUsername);
+        //System.out.println("========== DEBUG COUNT START ==========");
+       // System.out.println("User asking for count (FIXED): " + realUsername);
 
         List<ContactInfo> allMessages = contactInfoRepo.findAllByAccount_UsernameOrderByMessageDateDesc(realUsername);
 
@@ -107,12 +98,10 @@ public class ContactInfoServiceImpl implements ContactInfoService {
         return count;
     }
 
-    // =========================================================================
-    //  3 -- show my messages
-    // =========================================================================
+    //   show my messages
     @Override
     public List<ContactInfoDto> getMyMessages(String usernameIgnored) {
-        String realUsername = getCurrentUsername(); // التعديل هنا
+        String realUsername = getCurrentUsername();
 
         List<ContactInfo> messages = contactInfoRepo.findAllByAccount_UsernameOrderByMessageDateDesc(realUsername);
         return messages.stream()
@@ -120,13 +109,10 @@ public class ContactInfoServiceImpl implements ContactInfoService {
                 .collect(Collectors.toList());
     }
 
-    // =========================================================================
-    // 4. updating reading status
-    // =========================================================================
+    // updating reading status
     @Override
     public void markAllAsRead(String usernameIgnored) {
-        String realUsername = getCurrentUsername(); // التعديل هنا
-
+        String realUsername = getCurrentUsername();
         List<ContactInfo> unreadMessages = contactInfoRepo.findAllByAccount_UsernameAndIsRepliedTrueAndIsReadFalse(realUsername);
 
         if (!unreadMessages.isEmpty()) {
@@ -135,9 +121,7 @@ public class ContactInfoServiceImpl implements ContactInfoService {
         }
     }
 
-    // =========================================================================
-    //  Admin stuff (still the same)
-    // =========================================================================
+    //  Admin part .............................................................
     @Override
     public List<ContactInfoDto> getAllMessages() {
         return contactInfoRepo.findAllByOrderByMessageDateDesc().stream()
