@@ -8,25 +8,24 @@ import { ContactService } from '../../../service/contact.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit { // 1. زودنا implements OnInit
+export class HeaderComponent implements OnInit { 
 
   unreadCount: number = 0;
   
-  // مش محتاجين isLoggedIn كمتغير، هنعتمد على الفانكشن علطول
+  // we dont need isLogin .. we will use the function directly here
 
   constructor(
     private routes: Router, 
     private authService: AuthService,
-    private contactService: ContactService // 2. حقنا السيرفس 
+    private contactService: ContactService // service injection
   ) {}
 
-  // 3.  التشغيل أول ما الصفحة تفتح
   ngOnInit(): void {
    if (this.isUserLogin()) {
-      // 1. نادي الـ API عشان يجيب أول رقم ويحطه في المخزن
+    // call the API to get the first number
       this.contactService.getUnreadCount().subscribe();
       
-      // 2. اشترك في المخزن عشان أي تغيير مستقبلي يوصلك
+      // to get any changes we subscribe to the storage 
       this.contactService.unreadCount.subscribe(count => {
         this.unreadCount = count;
       });

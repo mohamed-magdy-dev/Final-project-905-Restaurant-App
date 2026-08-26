@@ -18,7 +18,7 @@ export class ContactInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.contactForm = this.formBuilder.group({
-      subject: ['', Validators.required], // subject must there
+      subject: ['', Validators.required], // subject must be there
       message: ['', [Validators.required, Validators.minLength(10)]] // the message must be there and has a min length of 10 (for now)
     });
   }

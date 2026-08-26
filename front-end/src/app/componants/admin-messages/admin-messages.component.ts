@@ -12,6 +12,10 @@ export class AdminMessagesComponent implements OnInit {
   successMessage = ''; // success message variable
   errorMessage = '';   // EError message variable
   
+// For the View modal
+  selectedMessage: any = null;
+
+  // reply modal
   replyData = {
     id: null,
     adminReply: ''
@@ -26,6 +30,7 @@ export class AdminMessagesComponent implements OnInit {
   loadAllMessages() {
     this.contactService.getAllMessages().subscribe({
       next: (data) => {
+          console.log('Messages loaded:', data); // Debug
         this.messages = data;
       },
       error: (err) => console.error('Failed to load messages', err)
@@ -47,8 +52,7 @@ export class AdminMessagesComponent implements OnInit {
         // for modal to close automatically
         const modalBtn = document.getElementById('closeModalBtn');
         if (modalBtn) modalBtn.click();
-        
-        this.loadAllMessages();
+        this.loadAllMessages(); // Refresh list
 
         //timeout
         setTimeout(() => {

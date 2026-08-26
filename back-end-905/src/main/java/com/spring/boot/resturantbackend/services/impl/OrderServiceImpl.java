@@ -66,10 +66,10 @@ public class OrderServiceImpl implements OrderService {
         // we save first, to take the id in.
         Order orderSaved = orderRepo.save(order);
 
-        // 5. تحديث الكود بالشكل الصحيح (RES-ID)
+        //  تحديث الكود بالشكل الصحيح (RES-ID)
         String code = "RES-" + orderSaved.getId();
         orderSaved.setCode(code);
-
+        orderRepo.save(orderSaved);
         return new ResponseOrderVm(
                 orderSaved.getCode(),
                 orderSaved.getTotalPrice(),

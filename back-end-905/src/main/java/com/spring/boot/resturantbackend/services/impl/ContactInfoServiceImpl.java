@@ -59,8 +59,13 @@ public class ContactInfoServiceImpl implements ContactInfoService {
             ContactInfo contactInfo = ContactInfoMapper.CONTACT_INFO_MAPPER.toContactInfo(contactInfoDto);
             contactInfo.setAccount(account);
             contactInfo.setMessageDate(LocalDateTime.now());
-            contactInfo.setName(contactInfoDto.getName());
-            contactInfo.setEmail(contactInfoDto.getEmail());
+//            contactInfo.setName(contactInfoDto.getName());
+//            contactInfo.setEmail(contactInfoDto.getEmail());
+
+            // Get user information from the logged-in Account
+            contactInfo.setName(account.getUsername());
+            // Use the account email if your Account has an email field
+            contactInfo.setEmail(account.getEmail());
 
             // Defaults
             contactInfo.setRead(true);
@@ -133,7 +138,7 @@ public class ContactInfoServiceImpl implements ContactInfoService {
     public void replyToMessage(ContactInfoDto replyDto) {
         ContactInfo message = contactInfoRepo.findById(replyDto.getId())
                 .orElseThrow(() -> new RuntimeException("Message not found"));
-
+        // when admin reply then set the values for notification
         message.setAdminReply(replyDto.getAdminReply());
         message.setReplyDate(LocalDateTime.now());
         message.setReplied(true);

@@ -48,7 +48,7 @@ public class ContactInfo {
 
 // -------------------------------------------------------
 
-    @Column(name = "IS_READ",columnDefinition = "number(1) default 0") // أو boolean حسب الداتا بيز، بس ده عشان أوراكل أحياناً
+    @Column(name = "IS_READ",columnDefinition = "number(1) default 0")
     private boolean isRead = false;
 
 

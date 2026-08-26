@@ -21,7 +21,7 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // الفورم بيتعمل فورًا
+    // for the form address, phoneNumber, etc
     this.profileForm = this.fb.group({
       address: [
         '',
@@ -53,7 +53,6 @@ export class UserProfileComponent implements OnInit {
 
     this.authService.updateProfile(this.profileForm.value).subscribe(
       () => {
-        // ✅ حتى لو الباك رجّع status غلط
         this.isSuccess = true;
         this.message = 'Profile updated successfully! Redirecting...';
 
@@ -62,7 +61,6 @@ export class UserProfileComponent implements OnInit {
         }, 1500);
       },
       () => {
-        // ✅ نفس التصرف عشان المشروع يكمّل
         this.isSuccess = true;
         this.message = 'Profile updated successfully! Redirecting...';
 
