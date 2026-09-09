@@ -66,7 +66,6 @@ public class OrderServiceImpl implements OrderService {
         // we save first, to take the id in.
         Order orderSaved = orderRepo.save(order);
 
-        //  تحديث الكود بالشكل الصحيح (RES-ID)
         String code = "RES-" + orderSaved.getId();
         orderSaved.setCode(code);
         orderRepo.save(orderSaved);
@@ -96,11 +95,8 @@ public class OrderServiceImpl implements OrderService {
     }
     @Override
     public List<OrderDto> getAllOrdersForAdmin() {
-        // بنجيب كل الأوردرات ونرتبها بالتاريخ (الأحدث للأقدم)
-        // ملاحظة: لو "dateCreated" مش موجود في الـ Entity، غيرها لـ "id" مؤقتاً
         List<Order> orders = orderRepo.findAll(Sort.by(Sort.Direction.DESC, "id"));
 
-        // بنحولها لـ DTO باستخدام المابر بتاعك
         return OrderMapper.ORDER_MAPPER.toOrderDtoList(orders);
     }
 }

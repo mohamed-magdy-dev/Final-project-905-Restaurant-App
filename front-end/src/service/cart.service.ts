@@ -71,7 +71,6 @@ export class CartService {
     if(index > -1){
       this.productOrders.splice(index, 1)
     }
-    // This Recalculates cart totals after removing the product بتصفر الكارت اللي فوق
      this.calculateTotals();  
   }
 }

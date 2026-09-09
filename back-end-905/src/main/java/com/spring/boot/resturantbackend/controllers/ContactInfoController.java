@@ -52,7 +52,7 @@ public class ContactInfoController {
         return ResponseEntity.ok(contactInfoService.getMyMessages(username));
     }
 
-    // for user when he openes the message,the notification disappears.
+    // for user when he opens the message,the notification disappears.
     @PutMapping("/mark-read") // mark-read
     public ResponseEntity<?> markMessagesAsRead() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();

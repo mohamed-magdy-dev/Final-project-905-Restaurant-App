@@ -31,5 +31,5 @@ public class ContactInfoDto {
     private boolean isRead;
     private boolean isReplied;
     private String adminReply;
-    private LocalDateTime replyDate; // added replyDate
+    private LocalDateTime replyDate;
 }

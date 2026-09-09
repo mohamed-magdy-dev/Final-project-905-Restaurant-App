@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
   return this.routes.url === '/login' || this.routes.url === '/signup';
 } // this.routes.url: bring the url that the Angular is currently on
 
-  search(key: any){ // زودت any عشان التايب سكريبت ميزعلش
+  search(key: any){ 
     this.routes.navigateByUrl("/products/" + key);
   }
 

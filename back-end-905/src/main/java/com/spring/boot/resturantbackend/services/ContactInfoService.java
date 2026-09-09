@@ -13,7 +13,7 @@ public interface ContactInfoService {
 
     void markAllAsRead(String username);
 
-    List<ContactInfoDto> getAllMessages(); // للأدمن
+    List<ContactInfoDto> getAllMessages();
 
-    void replyToMessage(ContactInfoDto replyDto); // للأدمن
+    void replyToMessage(ContactInfoDto replyDto);
 }

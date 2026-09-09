@@ -14,6 +14,6 @@ public interface ContactInfoRepo extends JpaRepository<ContactInfo, Long> {
 
     List<ContactInfo> findAllByAccount_UsernameAndIsRepliedTrueAndIsReadFalse(String username);
 
-    //  كل الرسايل للأدمن
+
     List<ContactInfo> findAllByOrderByMessageDateDesc();
 }

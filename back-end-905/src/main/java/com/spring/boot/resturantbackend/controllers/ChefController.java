@@ -29,7 +29,7 @@ public class ChefController {
     private ChefService chefService;
     @Operation(
             summary = "get all chefs",
-            description = "all chefs in resturant"
+            description = "all chefs in restaurant"
     )
     @ApiResponses({
             @ApiResponse(

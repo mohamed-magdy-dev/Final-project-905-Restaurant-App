@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule, Routes } from '@angular/router';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // FormsModule مهم جدا هنا
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'; 
 import { NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
 import { APP_BASE_HREF } from '@angular/common';
 
@@ -85,7 +85,7 @@ export const routes: Routes = [
     HttpClientModule,
     NgbPaginationModule,
     ReactiveFormsModule,
-    FormsModule // ده اللي بيحل مشكلة ngModel
+    FormsModule 
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

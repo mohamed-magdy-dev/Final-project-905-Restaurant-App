@@ -28,19 +28,15 @@ public class AuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            //  get token from headers
             String token = request.getHeader("Authorization");
 
-            // لو مفيش توكن، كمل عادي ومتوقفش الريكوست
             if (Objects.isNull(token) || !token.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
             }
             token = token.substring(7);
-            //  validate token
             AccountDto userValidated = tokenHandler.validateToken(token);
 
-            //  وهنا كمان: لو التوكن مش سليم، كمل برضه والسبرينج هو اللي هيتصرف
             if (Objects.isNull(userValidated)) {
                 filterChain.doFilter(request, response);
                 return;
@@ -62,8 +58,6 @@ public class AuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (SystemException e) {
-            // لو حصل ايرور في السيستم، كمل برضه عشان منعملش كراش للريكوست
-            // عملنا كاتش بحيث نخليه يكمل يعني
             filterChain.doFilter(request, response);
         }
     }
