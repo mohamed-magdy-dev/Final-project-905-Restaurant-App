@@ -28,7 +28,7 @@ public class CategoryDto {
     @Schema(
             name = "name",
             description = "name for category (string)",
-            example = "taher amin"
+            example = "Mohamed Magdy"
     )
     private String name;
     @NotEmpty(message = "not_empty.logo")

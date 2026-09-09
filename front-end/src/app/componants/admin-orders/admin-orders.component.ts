@@ -10,7 +10,6 @@ export class AdminOrdersComponent implements OnInit {
 
   orders: any[] = [];
 
-  // هنا استخدمنا RequestOrderService بدل OrderService الوهمية
   constructor(private requestOrderService: RequestOrderService) { }
 
   ngOnInit(): void {
@@ -20,9 +19,8 @@ export class AdminOrdersComponent implements OnInit {
   getOrders() {
     this.requestOrderService.getAllOrders().subscribe({
       next: (data: any) => {
-        console.log('Final Data:', data); // عشان نتأكد في الكونسول
+        console.log('Final Data:', data); 
         
-        // التعديل: الداتا جاية "قائمة" جاهزة، مش محتاجة فك
         this.orders = data; 
       },
       error: (err) => {

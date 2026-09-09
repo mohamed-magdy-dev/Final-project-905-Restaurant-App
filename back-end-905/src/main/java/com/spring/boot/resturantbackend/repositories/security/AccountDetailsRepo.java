@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountDetailsRepo extends JpaRepository<AccountDetails, Long> {
-    // هنحتاج دي عشان نجيب تفاصيل يوزر معين
     AccountDetails findByAccount_Id(Long accountId);
 }

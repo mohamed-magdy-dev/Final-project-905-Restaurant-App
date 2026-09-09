@@ -13,6 +13,7 @@ import java.util.List;
 public class AccountAuthResponseVm {
     private Long id;
     private String username;
+    private String email;
     private String token;
     private List<String> userRoles;
 }

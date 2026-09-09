@@ -14,10 +14,7 @@ export class MyMessagesComponent implements OnInit {
   constructor(private contactService: ContactService) { }
 
   ngOnInit(): void {
-    // 1. تحميل الرسايل
     this.loadMessages();
-
-    // 2. تصفير العداد (لأن اليوزر فتح الصفحة خلاص)
     this.markMessagesAsRead();
   }
 
@@ -38,8 +35,6 @@ export class MyMessagesComponent implements OnInit {
     this.contactService.markAsRead().subscribe({
       next: () => {
         console.log('Messages marked as read');
-        // هنا ممكن نحتاج نحدث العداد في الناف بار، بس عشان السرعة 
-        // اليوزر لما يعمل ريفريش او يروح صفحة تانية العداد هيختفي لوحده
       },
       error: (err) => console.error('Error marking read', err)
     });

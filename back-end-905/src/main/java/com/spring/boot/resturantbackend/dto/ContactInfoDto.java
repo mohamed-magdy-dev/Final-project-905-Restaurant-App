@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -28,5 +30,6 @@ public class ContactInfoDto {
     // notification
     private boolean isRead;
     private boolean isReplied;
-    private String adminReply; // تأكد إن ده موجود
+    private String adminReply;
+    private LocalDateTime replyDate;
 }

@@ -8,44 +8,30 @@ import { ContactService } from '../../../service/contact.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit { // 1. زودنا implements OnInit
+export class HeaderComponent implements OnInit { 
 
   unreadCount: number = 0;
   
-  // مش محتاجين isLoggedIn كمتغير، هنعتمد على الفانكشن علطول
+  // we dont need isLogin .. we will use the function directly here
 
   constructor(
     private routes: Router, 
     private authService: AuthService,
-    private contactService: ContactService // 2. حقنا السيرفس هنا
+    private contactService: ContactService // service injection
   ) {}
 
-  // 3. دالة التشغيل أول ما الصفحة تفتح
   ngOnInit(): void {
    if (this.isUserLogin()) {
-      // 1. نادي الـ API عشان يجيب أول رقم ويحطه في المخزن
+    // call the API to get the first number
       this.contactService.getUnreadCount().subscribe();
       
-      // 2. اشترك في المخزن عشان أي تغيير مستقبلي يوصلك
+      // to get any changes we subscribe to the storage 
       this.contactService.unreadCount.subscribe(count => {
         this.unreadCount = count;
       });
     }
   }
   
-
-  // getNotificationCount() {
-  //   this.contactService.getUnreadCount().subscribe({
-  //     next: (count) => {
-  //       this.unreadCount = count;
-  //       console.log('Unread Messages:', count);
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to get notifications', err);
-  //     }
-  //   });
-  // }
-
   isUserLogin(): boolean {
     return this.authService.isUserLogin();
   }
@@ -54,7 +40,11 @@ export class HeaderComponent implements OnInit { // 1. زودنا implements OnI
     return this.authService.isAdmin();
   }
 
-  search(key: any){ // زودت any عشان التايب سكريبت ميزعلش
+  isAuthPage(): boolean {
+  return this.routes.url === '/login' || this.routes.url === '/signup';
+} // this.routes.url: bring the url that the Angular is currently on
+
+  search(key: any){ 
     this.routes.navigateByUrl("/products/" + key);
   }
 

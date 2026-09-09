@@ -39,22 +39,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseOrderVm requestOrder(RequestOrderVm requestOrderVm) {
 
-        // 1️⃣ نجيب اليوزر اللي عامل Login
         AccountDto accountDto = (AccountDto) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
 
-        // 2️⃣ نجيب الـ Account من الداتا بيز
         Account account = accountRepo.findByUsername(accountDto.getUsername())
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
-        // 3️⃣ CHECK المهم 🔴
         if (account.getAccountDetails() == null) {
             throw new ProfileIncompleteException();
         }
 
-        // 4️⃣ باقي الكود زي ما هو
         List<ProductDto> productDtoList =
                 productService.getProductByIds(requestOrderVm.getProductsIds());
 
@@ -64,24 +60,21 @@ public class OrderServiceImpl implements OrderService {
         order.setProducts(ProductMapper.PRODUCT_MAPPER.toProductList(productDtoList));
         order.setAccount(account);
 
-        // 🔥 التعديل هنا: نحط قيمة مؤقتة عشان نتفادى خطأ الـ NULL
-        order.setCode("TEMP-CODE");
+        // we put temp so we dont get "null" errors!
+        order.setCode("TEMP-CODE"); // TEMP-CODE as a value.
 
-        // 4. الحفظ الأول (عشان ناخد ID)
+        // we save first, to take the id in.
         Order orderSaved = orderRepo.save(order);
 
-        // 5. تحديث الكود بالشكل الصحيح (RES-ID)
         String code = "RES-" + orderSaved.getId();
         orderSaved.setCode(code);
-
+        orderRepo.save(orderSaved);
         return new ResponseOrderVm(
                 orderSaved.getCode(),
                 orderSaved.getTotalPrice(),
                 orderSaved.getTotalNumber()
         );
     }
-
-
     @Override
     public UserOrdersResponse getOrders() {
         AccountDto accountDto = (AccountDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -100,15 +93,10 @@ public class OrderServiceImpl implements OrderService {
                 totalPrice
         );
     }
-
     @Override
     public List<OrderDto> getAllOrdersForAdmin() {
-        // بنجيب كل الأوردرات ونرتبها بالتاريخ (الأحدث للأقدم)
-        // ملاحظة: لو "dateCreated" مش موجود في الـ Entity، غيرها لـ "id" مؤقتاً
         List<Order> orders = orderRepo.findAll(Sort.by(Sort.Direction.DESC, "id"));
 
-        // بنحولها لـ DTO باستخدام المابر بتاعك
         return OrderMapper.ORDER_MAPPER.toOrderDtoList(orders);
     }
-
 }

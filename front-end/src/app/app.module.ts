@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule, Routes } from '@angular/router';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // FormsModule مهم جدا هنا
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'; 
 import { NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
 import { APP_BASE_HREF } from '@angular/common';
 
@@ -29,6 +29,7 @@ import { LoginSignUpGuard } from 'src/guard/login-sign-up.guard';
 import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
 import { AdminDashboardComponent } from './componants/admin-dashboard/admin-dashboard.component';
 import { AdminOrdersComponent } from './componants/admin-orders/admin-orders.component';
+import { AdminFoodComponent } from './componants/admin-food/admin-food.component';
 
 // Interceptors & Guards
 
@@ -48,6 +49,7 @@ export const routes: Routes = [
   {path: 'admin-messages', component: AdminMessagesComponent, canActivate:[AuthGuard] },
   {path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard] },
   {path: 'admin-orders', component: AdminOrdersComponent, canActivate: [AuthGuard] },
+  {path: 'admin-food', component: AdminFoodComponent, canActivate: [AuthGuard]},
   {path: 'order-code/:code', component: OrderCodeComponent, canActivate:[AuthGuard]},
   {path: 'orders-user', component: OrderUserComponent, canActivate:[AuthGuard]},
   {path: '', redirectTo: '/products', pathMatch: 'full'},
@@ -74,7 +76,8 @@ export const routes: Routes = [
     MyMessagesComponent,
     AdminMessagesComponent,
     AdminDashboardComponent,
-    AdminOrdersComponent
+    AdminOrdersComponent,
+    AdminFoodComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -82,7 +85,7 @@ export const routes: Routes = [
     HttpClientModule,
     NgbPaginationModule,
     ReactiveFormsModule,
-    FormsModule // ده اللي بيحل مشكلة ngModel
+    FormsModule 
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

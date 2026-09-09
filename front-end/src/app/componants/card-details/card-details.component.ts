@@ -68,10 +68,8 @@ error => {
 
   if (errorMsg === 'PROFILE_INCOMPLETE') {
     this.profileErrorMessage = 'Please complete your profile first to be able to checkout.';
-    // لا تقم بإخفاء الرسالة هنا، اترك الزر ظاهراً للمستخدم ليضغط عليه
   } else {
     this.profileErrorMessage = 'Something went wrong. Please try again.';
-    // هنا يمكن إخفاؤه لأنه مجرد تنبيه عام
     setTimeout(() => {
       this.profileErrorMessage = null;
     }, 5000);

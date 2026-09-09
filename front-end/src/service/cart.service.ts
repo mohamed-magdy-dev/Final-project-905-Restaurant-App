@@ -71,5 +71,6 @@ export class CartService {
     if(index > -1){
       this.productOrders.splice(index, 1)
     }
+     this.calculateTotals();  
   }
 }

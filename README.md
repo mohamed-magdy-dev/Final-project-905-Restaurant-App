@@ -249,3 +249,4 @@ http://localhost:8080
 ## Notes
 
 This project was developed as part of a Java Backend Diploma project, with an Angular frontend and a Spring Boot REST API backend.
+

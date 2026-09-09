@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @Tag(name = "Auth Controller", description = "Sign up, login")
-@RequestMapping("/auth")
+@RequestMapping("/auth") // has mapping
 @RestController
 @CrossOrigin("http://localhost:4200")
-public class AuthController {
+public class AuthController { // receives request and sends it to Service
 
     @Autowired
     private AuthService authService;
@@ -34,7 +34,7 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Http Status internal server error",
                     content = @Content(schema = @Schema(implementation = ExceptionDto.class))),
     })
-    @PostMapping("/sign-up")
+    @PostMapping("/sign-up") // endpoint for sign-up .. same as login: POST /auth/sign-up
     public ResponseEntity<AccountAuthResponseVm> signUp(
             @RequestBody @Valid SignupRequestVm vm) throws SystemException {
 
@@ -49,10 +49,11 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Http Status internal server error",
                     content = @Content(schema = @Schema(implementation = ExceptionDto.class))),
     })
-    @PostMapping("/login")
+    @PostMapping("/login") // endpoint for login "POST /auth/login"
+    // takes login request from angular --> passes to authService
     public ResponseEntity<AccountAuthResponseVm> login(
             @RequestBody @Valid LoginRequestVm vm) throws SystemException {
 
-        return ResponseEntity.ok(authService.login(vm));
+        return ResponseEntity.ok(authService.login(vm)); //as shown here! authService.login
     }
 }

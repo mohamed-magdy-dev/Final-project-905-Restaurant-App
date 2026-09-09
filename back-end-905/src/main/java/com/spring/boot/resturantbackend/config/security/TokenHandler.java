@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Component
-public class TokenHandler {
+public class TokenHandler { // This is where the JWT tokens happen.
     private String secret;
     private Duration time;
     private JwtBuilder jwtBuilder;

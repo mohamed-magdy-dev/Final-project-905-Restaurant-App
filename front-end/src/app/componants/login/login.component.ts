@@ -11,14 +11,16 @@ export class LoginComponent implements OnInit {
 
   messageAr: string = '';
   messageEn: string = '';
+  showPassword: boolean = false; // password reveal feature if true --> password type=password, if not then password = text (for now)
   constructor(private authService: AuthService, private routes: Router) { }
 
   ngOnInit(): void {
   }
 
 
-  login(username, password) {
-    if(!this.validateAccount(username, password)){
+  login(username, password) { // important function here!
+    if(!this.validateAccount(username, password)){ // validation : checking if main data exists before sending to spring 
+      // did user enter his username or password? or leave one empty for example .. 
       setTimeout(() => {
         this.messageAr = "";
         this.messageEn = "";
@@ -26,7 +28,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.authService.login(username, password).subscribe(
+    this.authService.login(username, password).subscribe( // calling the service .. 
       response => {
         sessionStorage.setItem("token", response.token);
         sessionStorage.setItem("roles", response.userRoles);

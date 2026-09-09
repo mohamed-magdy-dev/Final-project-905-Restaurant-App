@@ -48,10 +48,10 @@ public class ContactInfo {
 
 // -------------------------------------------------------
 
-    @Column(name = "IS_READ",columnDefinition = "number(1) default 0") // أو boolean حسب الداتا بيز، بس ده عشان أوراكل أحياناً
+    @Column(name = "IS_READ",columnDefinition = "number(1) default 0")
     private boolean isRead = false;
 
-    // عشان نعرف هل الأدمن رد ولا لسه (ممكن نستخدم adminReply != null بس دي أوضح)
+
     @Column(name = "IS_REPLIED", columnDefinition = "number(1) default 0")
     private boolean isReplied = false;
 }
